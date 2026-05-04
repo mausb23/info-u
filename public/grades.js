@@ -474,7 +474,7 @@ function render() {
                   </div>
                 </div>
                 <button onclick="window.addAssignment('${course.id}')" class="w-full py-2.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-black transition-all">
-                  AGREGAR TAREA
+                  AGREGAR ASIGNACIÓN
                 </button>
               </div>
             </div>
