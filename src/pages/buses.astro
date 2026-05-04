@@ -367,6 +367,25 @@ const darkBadgeMap: Record<string, string> = {
           </div>
         </div>
 
+        {/* Main Timer */}
+        <div id="nextBusTimer" class="bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm p-5 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-indigo-100 dark-icon-bg rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-bus text-indigo-600 dark-card-icon text-2xl"></i>
+            </div>
+            <div class="flex-1">
+              <p class="text-xs text-slate-400 dark-text-dim font-semibold uppercase tracking-wider mb-1">Próximo Bus Interno</p>
+              <div class="flex items-baseline gap-3 flex-wrap">
+                <span id="timerCountdown" class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 font-mono tracking-tight">--:--</span>
+                <div>
+                  <p id="timerRoute" class="text-sm font-semibold text-slate-700 dark-text-secondary">...</p>
+                  <p id="timerDir" class="text-xs text-slate-500 dark-text-muted">...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="space-y-6">
           {routes.map((route, ri) => {
             const c = colorMap[route.color];
@@ -398,6 +417,8 @@ const darkBadgeMap: Record<string, string> = {
                     <div
                       class={`direction-block p-5 ${c.bg} ${c.border} ${darkBg}`}
                       data-times={JSON.stringify(dir.times)}
+                      data-route={route.name}
+                      data-dir={dir.desc}
                     >
                       <div class="flex items-center gap-2 mb-3">
                         <div class={`w-8 h-8 ${c.iconBg} dark-icon-bg rounded-lg flex items-center justify-center flex-shrink-0`}>
@@ -736,8 +757,66 @@ const darkBadgeMap: Record<string, string> = {
         }
       }
 
+      function updateMainTimer() {
+        var countdownEl = document.getElementById('timerCountdown');
+        var routeEl = document.getElementById('timerRoute');
+        var dirEl = document.getElementById('timerDir');
+        if (!countdownEl || !routeEl || !dirEl) return;
+
+        var now = new Date();
+        var day = now.getDay();
+        var current = now.getHours() * 60 + now.getMinutes();
+        var seconds = now.getSeconds();
+
+        if (day === 0 || day === 6) {
+          countdownEl.textContent = '--:--';
+          routeEl.textContent = 'Sin servicio';
+          dirEl.textContent = 'Lunes a Viernes';
+          return;
+        }
+
+        var best = null;
+
+        document.querySelectorAll('.direction-block').forEach(function(el) {
+          if (!el.closest('#internalSection')) return;
+          var timesStr = el.dataset.times;
+          if (!timesStr) return;
+          var times;
+          try { times = JSON.parse(timesStr); } catch(e) { return; }
+
+          for (var i = 0; i < times.length; i++) {
+            var m = parseTime(times[i]);
+            if (m >= current && (!best || m < best.minutes)) {
+              best = {
+                minutes: m,
+                timeStr: times[i],
+                routeName: el.dataset.route || '',
+                dirDesc: el.dataset.dir || ''
+              };
+            }
+          }
+        });
+
+        if (!best) {
+          countdownEl.textContent = '--:--';
+          routeEl.textContent = 'No hay más salidas hoy';
+          dirEl.textContent = '';
+          return;
+        }
+
+        var diffSeconds = (best.minutes - current) * 60 - seconds;
+        if (diffSeconds < 0) diffSeconds = 0;
+        var mins = Math.floor(diffSeconds / 60);
+        var secs = diffSeconds % 60;
+        countdownEl.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+        routeEl.textContent = formatTime(best.timeStr) + ' — ' + best.routeName;
+        dirEl.textContent = best.dirDesc;
+      }
+
       function init() {
         updateNextBuses();
+        updateMainTimer();
+        setInterval(updateMainTimer, 1000);
         setInterval(updateNextBuses, 30000);
 
         document.getElementById('tabInterno')?.addEventListener('click', function() { setBusTab('interno'); });
