@@ -383,9 +383,9 @@ function render() {
 
       const threshold = getScale() === 10 ? 7 : 70;
       const isPassing = stats.average >= threshold || stats.gradedWeight === 0;
-      const statusColor = isPassing ? 'text-emerald-600' : 'text-rose-600';
-      const statusBg = isPassing ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100';
-      const statusText = isPassing ? 'text-emerald-700' : 'text-rose-700';
+      const statusColor = isPassing ? 'text-emerald-600 dark-text-primary' : 'text-rose-600 dark-text-primary';
+      const statusBg = isPassing ? 'bg-emerald-50 border-emerald-100 dark-muted-bg dark-border' : 'bg-rose-50 border-rose-100 dark-muted-bg dark-border';
+      const statusText = isPassing ? 'text-emerald-700 dark-text-secondary' : 'text-rose-700 dark-text-secondary';
 
       const assignmentsHTML =
         course.assignments.length === 0
