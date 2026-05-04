@@ -286,15 +286,24 @@ function calculateCourseWithHypothetical(course, hypotheticalId, hypotheticalGra
   };
 }
 
+function roundGradeUCR(grade) {
+  const base = Math.floor(grade);
+  const decimal = grade - base;
+  if (decimal < 0.25) return base;
+  if (decimal < 0.75) return base + 0.5;
+  return base + 1;
+}
+
 function getStatusInfo(avg, scale, gradedWeight) {
   if (gradedWeight === 0) {
     return { label: 'Sin notas', colorClass: 'text-slate-400 dark-text-dim', bgClass: 'bg-slate-50 border-slate-200 dark-muted-bg dark-border', textClass: 'text-slate-500 dark-text-dim' };
   }
   const base10 = scale === 100 ? avg / 10 : avg;
-  if (base10 >= 7.0) {
+  const rounded = roundGradeUCR(base10);
+  if (rounded >= 7.0) {
     return { label: 'Aprobado', colorClass: 'text-emerald-600 dark-text-primary', bgClass: 'bg-emerald-50 border-emerald-100 dark-muted-bg dark-border', textClass: 'text-emerald-700 dark-text-secondary' };
   }
-  if (base10 >= 6.0) {
+  if (rounded >= 6.0) {
     return { label: 'Ampliación', colorClass: 'text-amber-600 dark-amber-banner-title', bgClass: 'bg-amber-50 border-amber-200 dark-route-amber-bg', textClass: 'text-amber-700 dark-amber-banner-text' };
   }
   return { label: 'Reprobado', colorClass: 'text-rose-600 dark-text-primary', bgClass: 'bg-rose-50 border-rose-100 dark-muted-bg dark-border', textClass: 'text-rose-700 dark-text-secondary' };
@@ -489,11 +498,12 @@ function render() {
                 <span class="text-lg font-bold ${statusInfo.colorClass}">${stats.gradedWeight > 0 ? stats.average.toFixed(2) : 'N/A'}</span>
                 ${stats.gradedWeight > 0 ? `<span class="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold ${statusInfo.bgClass} ${statusInfo.textClass}">${statusInfo.label}</span>` : ''}
               </div>
-              <div class="flex items-center gap-1.5">
+              ${stats.gradedWeight > 0 ? `<p class="text-[10px] text-slate-400 dark-text-dim mt-0.5 ml-1">Nota oficial: ${roundGradeUCR(getScale() === 100 ? stats.average / 10 : stats.average).toFixed(1)} / 10</p>` : ''}
+            </div>
+            <div class="flex items-center gap-1.5">
                 <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Peso:</span>
                 <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight} / ${getScale()}</span>
               </div>
-            </div>
           </div>
           <button onclick="window.removeCourse('${course.id}')" class="p-2 text-slate-300 hover:text-rose-600 transition-all flex-shrink-0">
             <i class="fas fa-trash-alt"></i>
