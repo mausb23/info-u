@@ -94,15 +94,15 @@ function addAssignment(courseId) {
   const gradeValue = gradeInput.value.trim();
   const weight = parseFloat(weightInput.value);
 
-  if (isNaN(weight) || weight <= 0) return alert('Ingrese un peso válido');
-  if (weight > getScale()) return alert(`El peso no puede exceder ${getScale()}`);
+  if (isNaN(weight) || weight <= 0) return alert('Ingrese un valor válido');
+  if (weight > getScale()) return alert(`El valor no puede exceder ${getScale()}`);
 
   const course = state.courses.find((c) => c.id === courseId);
   if (!course) return;
   const currentWeight = course.assignments.reduce((sum, a) => sum + a.weight, 0);
 
   if (currentWeight + weight > getScale()) {
-    return alert(`El peso total no puede exceder ${getScale()}. Capacidad restante: ${(getScale() - currentWeight).toFixed(1)}`);
+    return alert(`El valor total no puede exceder ${getScale()}. Capacidad restante: ${(getScale() - currentWeight).toFixed(1)}`);
   }
 
   let grade = null;
@@ -506,7 +506,7 @@ function render() {
                 return `<div class="flex items-center justify-between p-3 bg-slate-50 dark-muted-bg-alpha hover:bg-slate-100 dark-hover-surface rounded-xl border border-slate-200 dark-border transition-all group">
                   <div class="flex-1 min-w-0">
                     <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
-                    <p class="text-[10px] font-bold text-slate-400 dark-text-dim uppercase">Peso: ${a.weight}%</p>
+                    <p class="text-[10px] font-bold text-slate-400 dark-text-dim uppercase">Valor: ${a.weight}%</p>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 ml-3">
                     <div class="flex flex-col items-end gap-0.5">
@@ -534,7 +534,7 @@ function render() {
               ${stats.gradedWeight > 0 ? `<p class="text-[10px] text-slate-400 dark-text-dim mt-0.5 ml-1">Nota oficial: ${roundGradeUCR(getScale() === 100 ? stats.average / 10 : stats.average).toFixed(1)} / 10</p>` : ''}
             </div>
             <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Peso:</span>
+                <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Valor:</span>
                 <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight} / ${getScale()}</span>
               </div>
           </div>
@@ -557,7 +557,7 @@ function render() {
 
           <div class="space-y-6">
             <div class="bg-slate-50 dark-muted-bg border border-slate-200 dark-border p-4 rounded-2xl">
-              <h4 class="text-xs font-bold text-slate-500 dark-text-muted uppercase mb-2">Peso restante</h4>
+              <h4 class="text-xs font-bold text-slate-500 dark-text-muted uppercase mb-2">Valor restante</h4>
               <div class="flex justify-between items-end">
                 <span class="text-2xl font-black text-slate-700 dark-text-primary">${stats.remainingWeight}</span>
                 <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : 'text-amber-500 dark-amber-banner-text animate-pulse'}">
@@ -576,7 +576,7 @@ function render() {
                     <input type="number" id="asn-grade-${course.id}" placeholder="--" step="0.01" max="${getScale()}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                   <div>
-                    <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Peso *</label>
+                    <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Valor *</label>
                     <input type="number" id="asn-weight-${course.id}" placeholder="0-${getScale()}" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                 </div>
