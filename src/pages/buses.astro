@@ -63,19 +63,214 @@ const routes: Route[] = [
   },
 ];
 
+const externalRoutes: Route[] = [
+  {
+    name: 'Cartago - UCR',
+    description: 'Ruta interurbana desde Cartago hasta la UCR',
+    icon: 'fa-landmark',
+    color: 'blue',
+    badge: 'Cada 15-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Cartago',
+        icon: 'fa-arrow-right',
+        times: ['5:30', '5:45', '6:00', '6:15', '6:30', '6:45', '7:00', '7:15', '7:30', '7:45', '8:00', '8:15', '8:30', '9:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'],
+      },
+      {
+        label: 'Hacia Cartago',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['11:15', '12:15', '13:15', '14:15', '15:15', '16:15', '17:15', '18:15', '19:15', '20:15', '21:15'],
+      },
+    ],
+  },
+  {
+    name: 'Alajuela - UCR',
+    description: 'Ruta interurbana desde Alajuela hasta la UCR',
+    icon: 'fa-tree',
+    color: 'amber',
+    badge: 'Cada 20-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Alajuela',
+        icon: 'fa-arrow-right',
+        times: ['5:30', '5:50', '6:10', '6:30', '6:50', '7:10', '7:30', '7:50', '8:10', '8:30', '9:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30', '18:30'],
+      },
+      {
+        label: 'Hacia Alajuela',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['11:15', '12:15', '13:15', '14:15', '15:15', '16:15', '17:15', '18:15', '19:15', '20:15', '21:15'],
+      },
+    ],
+  },
+  {
+    name: 'Heredia - UCR',
+    description: 'Ruta interurbana desde Heredia hasta la UCR',
+    icon: 'fa-flag',
+    color: 'rose',
+    badge: 'Cada 20-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Heredia',
+        icon: 'fa-arrow-right',
+        times: ['5:30', '5:50', '6:10', '6:30', '6:50', '7:10', '7:30', '7:50', '8:10', '8:30', '9:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'],
+      },
+      {
+        label: 'Hacia Heredia',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['11:15', '12:15', '13:15', '14:15', '15:15', '16:15', '17:15', '18:15', '19:15', '20:15', '21:15'],
+      },
+    ],
+  },
+  {
+    name: 'San Ramón - UCR',
+    description: 'Ruta interurbana desde San Ramón hasta la UCR',
+    icon: 'fa-mountain',
+    color: 'purple',
+    badge: 'Cada 30-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de San Ramón',
+        icon: 'fa-arrow-right',
+        times: ['5:00', '5:30', '6:00', '6:30', '7:00', '7:30', '8:00', '9:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+      },
+      {
+        label: 'Hacia San Ramón',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['11:15', '12:15', '13:15', '14:15', '15:15', '16:15', '17:15', '18:15', '19:15', '20:15', '21:15'],
+      },
+    ],
+  },
+  {
+    name: 'Grecia - UCR',
+    description: 'Ruta interurbana desde Grecia hasta la UCR',
+    icon: 'fa-leaf',
+    color: 'teal',
+    badge: 'Cada 30-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Grecia',
+        icon: 'fa-arrow-right',
+        times: ['5:40', '6:00', '6:30', '7:00', '7:30', '8:00', '9:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00'],
+      },
+      {
+        label: 'Hacia Grecia',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['11:15', '12:15', '13:15', '14:15', '15:15', '16:15', '17:15', '18:15', '19:15', '20:15', '21:15'],
+      },
+    ],
+  },
+  {
+    name: 'Paraíso - UCR',
+    description: 'Ruta interurbana desde Paraíso hasta la UCR',
+    icon: 'fa-cloud',
+    color: 'cyan',
+    badge: 'Cada 30-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Paraíso',
+        icon: 'fa-arrow-right',
+        times: ['5:30', '6:00', '6:30', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '15:00', '16:00', '17:00', '18:00'],
+      },
+      {
+        label: 'Hacia Paraíso',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['12:10', '13:10', '14:10', '15:10', '16:10', '17:10', '18:10', '19:10', '20:10', '21:10'],
+      },
+    ],
+  },
+  {
+    name: 'San José (Calle 5, Av. 1-3) - UCR',
+    description: 'Ruta interurbana desde San José hasta la UCR',
+    icon: 'fa-building',
+    color: 'orange',
+    badge: 'Cada 20-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de San José',
+        icon: 'fa-arrow-right',
+        times: ['6:00', '6:20', '6:40', '7:00', '7:20', '7:40', '8:00', '8:20', '8:40', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
+      },
+      {
+        label: 'Hacia San José',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'],
+      },
+    ],
+  },
+  {
+    name: 'Sabanilla - San Pedro - UCR',
+    description: 'Ruta desde Sabanilla y San Pedro hasta la UCR',
+    icon: 'fa-home',
+    color: 'slate',
+    badge: 'Cada 30-60 min',
+    directions: [
+      {
+        label: 'Hacia la UCR',
+        desc: 'Salidas de Sabanilla',
+        icon: 'fa-arrow-right',
+        times: ['6:00', '6:30', '7:00', '7:30', '8:00', '8:30', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'],
+      },
+      {
+        label: 'Hacia Sabanilla',
+        desc: 'Salidas de la UCR',
+        icon: 'fa-arrow-left',
+        times: ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00'],
+      },
+    ],
+  },
+];
+
 const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string; badge: string; badgeText: string }> = {
   indigo: { bg: 'bg-indigo-50/50', border: 'border-indigo-100', text: 'text-indigo-600', iconBg: 'bg-indigo-100', badge: 'bg-indigo-100', badgeText: 'text-indigo-700' },
   emerald: { bg: 'bg-emerald-50/50', border: 'border-emerald-100', text: 'text-emerald-600', iconBg: 'bg-emerald-100', badge: 'bg-emerald-100', badgeText: 'text-emerald-700' },
+  blue: { bg: 'bg-blue-50/50', border: 'border-blue-100', text: 'text-blue-600', iconBg: 'bg-blue-100', badge: 'bg-blue-100', badgeText: 'text-blue-700' },
+  amber: { bg: 'bg-amber-50/50', border: 'border-amber-100', text: 'text-amber-600', iconBg: 'bg-amber-100', badge: 'bg-amber-100', badgeText: 'text-amber-700' },
+  rose: { bg: 'bg-rose-50/50', border: 'border-rose-100', text: 'text-rose-600', iconBg: 'bg-rose-100', badge: 'bg-rose-100', badgeText: 'text-rose-700' },
+  purple: { bg: 'bg-purple-50/50', border: 'border-purple-100', text: 'text-purple-600', iconBg: 'bg-purple-100', badge: 'bg-purple-100', badgeText: 'text-purple-700' },
+  teal: { bg: 'bg-teal-50/50', border: 'border-teal-100', text: 'text-teal-600', iconBg: 'bg-teal-100', badge: 'bg-teal-100', badgeText: 'text-teal-700' },
+  cyan: { bg: 'bg-cyan-50/50', border: 'border-cyan-100', text: 'text-cyan-600', iconBg: 'bg-cyan-100', badge: 'bg-cyan-100', badgeText: 'text-cyan-700' },
+  orange: { bg: 'bg-orange-50/50', border: 'border-orange-100', text: 'text-orange-600', iconBg: 'bg-orange-100', badge: 'bg-orange-100', badgeText: 'text-orange-700' },
+  slate: { bg: 'bg-slate-50/50', border: 'border-slate-200', text: 'text-slate-600', iconBg: 'bg-slate-100', badge: 'bg-slate-100', badgeText: 'text-slate-700' },
 };
 
 const darkBgMap: Record<string, string> = {
   indigo: 'dark-route-indigo-bg',
   emerald: 'dark-route-emerald-bg',
+  blue: 'dark-route-blue-bg',
+  amber: 'dark-route-amber-bg',
+  rose: 'dark-route-rose-bg',
+  purple: 'dark-route-purple-bg',
+  teal: 'dark-route-teal-bg',
+  cyan: 'dark-route-cyan-bg',
+  orange: 'dark-route-orange-bg',
+  slate: 'dark-route-slate-bg',
 };
 
 const darkBadgeMap: Record<string, string> = {
   indigo: 'dark-badge-indigo',
   emerald: 'dark-badge-emerald',
+  blue: 'dark-badge-blue',
+  amber: 'dark-badge-amber',
+  rose: 'dark-badge-rose',
+  purple: 'dark-badge-purple',
+  teal: 'dark-badge-teal',
+  cyan: 'dark-badge-cyan',
+  orange: 'dark-badge-orange',
+  slate: 'dark-badge-slate',
 };
 ---
 
@@ -169,6 +364,96 @@ const darkBadgeMap: Record<string, string> = {
             </div>
           );
         })}
+      </div>
+
+      {/* External Routes */}
+      <div class="mt-12 mb-4">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 dark-text-primary">Horarios de Bus Externo</h2>
+            <p class="text-slate-500 dark-text-muted mt-1">UCR — I Ciclo 2026 · Vigencia a partir del 9 de marzo, 2026 (Lunes a Viernes)</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="bg-white dark-surface px-4 py-2 rounded-xl border border-slate-200 dark-border shadow-sm">
+              <p class="text-xs text-slate-400 dark-text-dim font-medium uppercase">Rutas</p>
+              <p class="text-2xl font-bold text-slate-800 dark-text-primary">{externalRoutes.length}</p>
+            </div>
+            <div class="bg-white dark-surface px-4 py-2 rounded-xl border border-slate-200 dark-border shadow-sm">
+              <p class="text-xs text-slate-400 dark-text-dim font-medium uppercase">Horario</p>
+              <p class="text-lg font-bold text-slate-800 dark-text-primary">5:00 - 21:15</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 dark-amber-banner border border-amber-200 rounded-xl p-4 mb-8 flex items-start gap-3">
+          <i class="fas fa-info-circle text-amber-500 dark-amber-banner-icon mt-0.5"></i>
+          <div>
+            <p class="text-amber-800 dark-amber-banner-title font-semibold text-sm">Importante</p>
+            <p class="text-amber-700 dark-amber-banner-text text-xs mt-0.5">
+              Los horarios pueden variar en días festivos o durante recesos académicos. Consulte avisos actualizados.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          {externalRoutes.map((route, ri) => {
+            const c = colorMap[route.color];
+            const darkBg = darkBgMap[route.color];
+            const darkBadge = darkBadgeMap[route.color];
+            return (
+              <div class="bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                {/* Header */}
+                <div class="p-6 border-b border-slate-100 dark-border">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-start gap-4">
+                      <div class={`w-12 h-12 ${c.iconBg} dark-icon-bg rounded-xl flex items-center justify-center flex-shrink-0`}>
+                        <i class={`fas ${route.icon} ${c.text} dark-card-icon text-xl`}></i>
+                      </div>
+                      <div>
+                        <h2 class="text-lg font-bold text-slate-800 dark-text-primary">{route.name}</h2>
+                        <p class="text-sm text-slate-500 dark-text-muted mt-0.5">{route.description}</p>
+                      </div>
+                    </div>
+                    <span class={`px-3 py-1.5 text-xs font-bold ${c.badge} ${c.badgeText} ${darkBadge} rounded-full whitespace-nowrap flex-shrink-0`}>
+                      <i class="fas fa-clock mr-1"></i>{route.badge}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Both Directions Side by Side */}
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark-border">
+                  {route.directions.map((dir, di) => (
+                    <div
+                      class={`direction-block p-5 ${c.bg} ${c.border} ${darkBg}`}
+                      data-times={JSON.stringify(dir.times)}
+                    >
+                      <div class="flex items-center gap-2 mb-3">
+                        <div class={`w-8 h-8 ${c.iconBg} dark-icon-bg rounded-lg flex items-center justify-center flex-shrink-0`}>
+                          <i class={`fas ${dir.icon} ${c.text} dark-card-icon text-sm`}></i>
+                        </div>
+                        <div>
+                          <h3 class="text-sm font-bold text-slate-800 dark-text-primary">{dir.label}</h3>
+                          <p class="text-[11px] text-slate-500 dark-text-muted">{dir.desc} ({dir.times.length} salidas)</p>
+                        </div>
+                      </div>
+                      <div class="flex flex-wrap gap-1.5 mb-3">
+                        {dir.times.map((t) => (
+                          <span class={`px-2.5 py-1 text-xs font-mono font-medium ${c.badge} ${c.badgeText} ${darkBadge} rounded-md`}>
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                      <div class="pt-3 border-t border-slate-200 dark-border flex items-center gap-2">
+                        <i class="fas fa-clock text-indigo-400 dark:text-indigo-400 text-xs"></i>
+                        <span class="next-bus text-xs font-semibold text-slate-600 dark-text-secondary">Calculando...</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Notas Aclaratorias */}

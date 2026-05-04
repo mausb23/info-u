@@ -155,6 +155,51 @@ html.dark .dark-route-rose-bg {
   border-color: #881337 !important;
 }
 
+html.dark .dark-badge-blue {
+  background-color: #1e3a5f80 !important;
+  color: #93c5fd !important;
+}
+
+html.dark .dark-route-blue-bg {
+  background-color: #1725544d !important;
+  border-color: #1e3a5f !important;
+}
+
+html.dark .dark-badge-teal {
+  background-color: #134e4a80 !important;
+  color: #5eead4 !important;
+}
+
+html.dark .dark-route-teal-bg {
+  background-color: #042f2e4d !important;
+  border-color: #134e4a !important;
+}
+
+html.dark .dark-badge-cyan {
+  background-color: #164e6380 !important;
+  color: #67e8f9 !important;
+}
+
+html.dark .dark-route-cyan-bg {
+  background-color: #0833444d !important;
+  border-color: #155e75 !important;
+}
+
+html.dark .dark-badge-orange {
+  background-color: #7c2d1280 !important;
+  color: #fdba74 !important;
+}
+
+html.dark .dark-route-orange-bg {
+  background-color: #4314074d !important;
+  border-color: #7c2d12 !important;
+}
+
+html.dark .dark-route-slate-bg {
+  background-color: #1e293b4d !important;
+  border-color: #334155 !important;
+}
+
 html.dark .dark-shadow {
   box-shadow: 0 4px 6px -1px rgb(15 23 42 / .2), 0 2px 4px -2px rgb(15 23 42 / .1) !important;
 }
