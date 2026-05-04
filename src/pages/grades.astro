@@ -9,9 +9,16 @@ import Nav from '../components/Nav.astro';
   <main class="pt-16">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <!-- Tabs -->
-      <div class="flex gap-1 mb-8 bg-slate-100 dark-muted-bg p-1 rounded-xl border border-slate-200 dark-border w-fit">
-        <button id="tabCourses" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Control de Notas</button>
-        <button id="tabSemester" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Promedio de Cursos</button>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div class="flex gap-1 bg-slate-100 dark-muted-bg p-1 rounded-xl border border-slate-200 dark-border w-fit">
+          <button id="tabCourses" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Control de Notas</button>
+          <button id="tabSemester" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Promedio de Cursos</button>
+        </div>
+        <div class="flex items-center bg-white dark-surface p-1 rounded-xl border border-slate-200 dark-border shadow-sm">
+          <span class="text-xs font-bold text-slate-400 dark-text-dim px-3 uppercase tracking-wider">Escala:</span>
+          <button id="base10Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 10</button>
+          <button id="base100Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 100</button>
+        </div>
       </div>
 
       <!-- Dashboard cards -->
