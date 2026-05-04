@@ -158,43 +158,31 @@ function removeAssignment(courseId, assignmentId) {
   render();
 }
 
-function whatIfUpdate(courseId, assignmentId, value) {
+function gradePreview(courseId, assignmentId, value) {
   const course = state.courses.find((c) => c.id === courseId);
   if (!course) return;
 
-  const resultSpan = document.getElementById(`whatif-result-${courseId}-${assignmentId}`);
-  const indicator = document.getElementById(`whatif-indicator-${courseId}-${assignmentId}`);
-  if (!resultSpan) return;
+  const span = document.getElementById(`gp-${courseId}-${assignmentId}`);
+  if (!span) return;
 
   if (value === '' || value === null || value === undefined) {
-    resultSpan.textContent = '→ : —';
-    resultSpan.className = 'text-[10px] font-bold text-slate-400 dark-text-dim';
-    if (indicator) indicator.textContent = '';
+    span.textContent = '—';
+    span.className = 'text-[10px] font-bold text-slate-400 dark-text-dim';
     return;
   }
 
   const parsed = parseFloat(value);
   if (isNaN(parsed) || parsed < 0 || parsed > getScale()) {
-    resultSpan.textContent = '→ : —';
-    resultSpan.className = 'text-[10px] font-bold text-slate-400 dark-text-dim';
-    if (indicator) indicator.textContent = '';
+    span.textContent = '—';
+    span.className = 'text-[10px] font-bold text-slate-400 dark-text-dim';
     return;
   }
 
   const stats = calculateCourseWithHypothetical(course, assignmentId, parsed);
   const info = getStatusInfo(stats.average, getScale(), stats.gradedWeight);
 
-  resultSpan.textContent = `→ ${stats.average.toFixed(2)}`;
-  resultSpan.className = `text-[10px] font-bold ${info.colorClass}`;
-
-  if (indicator) {
-    if (stats.gradedWeight > 0) {
-      indicator.textContent = info.label;
-      indicator.className = `text-[10px] font-bold ${info.colorClass}`;
-    } else {
-      indicator.textContent = '';
-    }
-  }
+  span.textContent = `${stats.average.toFixed(2)} · ${info.label}`;
+  span.className = `text-[10px] font-bold ${info.colorClass}`;
 }
 
 function setTab(tab) {
@@ -472,40 +460,16 @@ function render() {
           : course.assignments
               .map((a) => {
                 const hasGrade = a.grade !== null && a.grade !== undefined;
-                const points = hasGrade ? (a.grade * (a.weight / getScale())).toFixed(2) : '-';
-                if (!hasGrade) {
-                  return `<div class="bg-amber-50 dark-route-amber-bg rounded-xl border border-amber-200 transition-all group">
-                    <div class="flex items-center justify-between p-3 hover:bg-slate-100 dark-hover-surface">
-                      <div class="flex-1 min-w-0">
-                        <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
-                        <p class="text-[10px] font-bold text-amber-500 dark-amber-banner-text uppercase">Nota pendiente · Peso: ${a.weight}%</p>
-                      </div>
-                      <div class="flex items-center gap-2 flex-shrink-0 ml-3">
-                        <input type="number" placeholder="Nota" min="0" max="${getScale()}" step="0.01" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input focus:ring-1 focus:ring-amber-400 outline-none">
-                        <button onclick="window.removeAssignment('${course.id}', '${a.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="px-3 pb-3 border-t border-dashed border-amber-200 dark-border pt-2">
-                      <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-[10px] text-amber-600 dark-amber-banner-title font-semibold"><i class="fas fa-calculator mr-1"></i>¿Qué nota crees?</span>
-                        <input type="number" placeholder="0-${getScale()}" min="0" max="${getScale()}" step="0.01" oninput="window.whatIfUpdate('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input outline-none focus:ring-1 focus:ring-amber-400">
-                        <span id="whatif-result-${course.id}-${a.id}" class="text-[10px] font-bold text-slate-400 dark-text-dim">→ : —</span>
-                        <span id="whatif-indicator-${course.id}-${a.id}" class="text-[10px] font-bold"></span>
-                      </div>
-                    </div>
-                  </div>`;
-                }
+                const points = hasGrade ? (a.grade * (a.weight / getScale())).toFixed(2) : null;
                 return `<div class="flex items-center justify-between p-3 bg-slate-50 dark-muted-bg-alpha hover:bg-slate-100 dark-hover-surface rounded-xl border border-slate-200 dark-border transition-all group">
                   <div class="flex-1 min-w-0">
                     <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
-                    <p class="text-[10px] font-bold text-slate-400 dark-text-dim uppercase">Nota: ${formatGrade(a.grade)} • Peso: ${a.weight}%</p>
+                    <p class="text-[10px] font-bold text-slate-400 dark-text-dim uppercase">Peso: ${a.weight}%</p>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 ml-3">
-                    <div class="text-right">
-                      <p class="text-sm font-bold text-slate-800 dark-text-secondary">+${points}</p>
-                      <p class="text-[10px] text-slate-400 dark-text-dim uppercase">Puntos</p>
+                    <div class="flex flex-col items-end gap-0.5">
+                      <input type="number" value="${hasGrade ? a.grade : ''}" placeholder="Nota" min="0" max="${getScale()}" step="0.01" oninput="window.gradePreview('${course.id}', '${a.id}', this.value)" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-slate-300 dark-input outline-none focus:ring-1 focus:ring-indigo-400">
+                      <span id="gp-${course.id}-${a.id}" class="text-[10px] font-bold text-slate-400 dark-text-dim">${hasGrade ? `+${points}` : '—'}</span>
                     </div>
                     <button onclick="window.removeAssignment('${course.id}', '${a.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
                       <i class="fas fa-times"></i>
@@ -620,7 +584,7 @@ window.setScale = setScale;
 window.addAssignment = addAssignment;
 window.updateGrade = updateGrade;
 window.removeAssignment = removeAssignment;
-window.whatIfUpdate = whatIfUpdate;
+window.gradePreview = gradePreview;
 window.removeCourse = removeCourse;
 window.addSemesterCourse = addSemesterCourse;
 window.removeSemesterCourse = removeSemesterCourse;
