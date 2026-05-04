@@ -301,12 +301,12 @@ function getStatusInfo(avg, scale, gradedWeight) {
   const base10 = scale === 100 ? avg / 10 : avg;
   const rounded = roundGradeUCR(base10);
   if (rounded >= 7.0) {
-    return { label: 'Aprobado', colorClass: 'text-emerald-600 dark-text-primary', bgClass: 'bg-emerald-50 border-emerald-100 dark-route-emerald-bg', textClass: 'text-emerald-700 dark-text-primary' };
+    return { label: 'Aprobado', colorClass: 'text-emerald-600 dark-text-emerald', bgClass: 'bg-emerald-50 border-emerald-100 dark-route-emerald-bg', textClass: 'text-emerald-700 dark-text-primary' };
   }
   if (rounded >= 6.0) {
     return { label: 'Ampliación', colorClass: 'text-amber-600 dark-amber-banner-title', bgClass: 'bg-amber-50 border-amber-200 dark-route-amber-bg', textClass: 'text-amber-700 dark-amber-banner-text' };
   }
-  return { label: 'Reprobado', colorClass: 'text-rose-600 dark-text-primary', bgClass: 'bg-rose-50 border-rose-100 dark-route-rose-bg', textClass: 'text-rose-700 dark-text-primary' };
+  return { label: 'Reprobado', colorClass: 'text-rose-600 dark-text-rose', bgClass: 'bg-rose-50 border-rose-100 dark-route-rose-bg', textClass: 'text-rose-700 dark-text-primary' };
 }
 
 function escapeHtml(text) {

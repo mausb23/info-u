@@ -249,6 +249,14 @@ html.dark .dark-amber-banner-icon {
   color: #fbbf24 !important;
 }
 
+html.dark .dark-text-emerald {
+  color: #6ee7b7 !important;
+}
+
+html.dark .dark-text-rose {
+  color: #fda4af !important;
+}
+
 /* Schedule Builder */
 html.dark .dark-schedule-sidebar {
   background-color: #1e293b !important;
