@@ -200,6 +200,16 @@ html.dark .dark-route-slate-bg {
   border-color: #334155 !important;
 }
 
+html.dark .dark-badge-fuchsia {
+  background-color: #701a7580 !important;
+  color: #f0abfc !important;
+}
+
+html.dark .dark-route-fuchsia-bg {
+  background-color: #3b07644d !important;
+  border-color: #701a75 !important;
+}
+
 html.dark .dark-shadow {
   box-shadow: 0 4px 6px -1px rgb(15 23 42 / .2), 0 2px 4px -2px rgb(15 23 42 / .1) !important;
 }
