@@ -2,7 +2,7 @@
 
 ## Project
 
-Astro static site: **Campus App** with Schedule Builder, Grade Tracker, and Bus Schedules.
+Astro static site: **InfoU** with Schedule Builder, Grade Tracker, and Bus Schedules.
 
 ## Running
 
