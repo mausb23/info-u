@@ -77,12 +77,12 @@ function addCourse(name) {
   render();
 }
 
-function removeCourse(id) {
-  if (confirm('¿Estás seguro de eliminar este curso y todas sus notas?')) {
-    state.courses = state.courses.filter((c) => c.id !== id);
-    save();
-    render();
-  }
+async function removeCourse(id) {
+  const yes = await window.showConfirm('¿Eliminar curso?', '¿Estás seguro de eliminar este curso y todas sus notas?', { okText: 'Sí, eliminar' });
+  if (!yes) return;
+  state.courses = state.courses.filter((c) => c.id !== id);
+  save();
+  render();
 }
 
 function addAssignment(courseId) {
@@ -94,22 +94,24 @@ function addAssignment(courseId) {
   const gradeValue = gradeInput.value.trim();
   const weight = parseFloat(weightInput.value);
 
-  if (isNaN(weight) || weight <= 0) return alert('Ingrese un valor válido');
-  if (weight > getScale()) return alert(`El valor no puede exceder ${getScale()}`);
+  if (isNaN(weight) || weight <= 0) { showToast('Ingrese un valor válido', 'error'); return; }
+  if (weight > getScale()) { showToast(`El valor no puede exceder ${getScale()}`, 'error'); return; }
 
   const course = state.courses.find((c) => c.id === courseId);
   if (!course) return;
   const currentWeight = course.assignments.reduce((sum, a) => sum + a.weight, 0);
 
   if (currentWeight + weight > getScale()) {
-    return alert(`El valor total no puede exceder ${getScale()}. Capacidad restante: ${(getScale() - currentWeight).toFixed(1)}`);
+    showToast(`El valor total no puede exceder ${getScale()}. Capacidad restante: ${(getScale() - currentWeight).toFixed(1)}`, 'error');
+    return;
   }
 
   let grade = null;
   if (gradeValue !== '') {
     grade = parseFloat(gradeValue);
     if (isNaN(grade) || grade < 0 || grade > getScale()) {
-      return alert(`La nota debe estar entre 0 y ${getScale()}`);
+      showToast(`La nota debe estar entre 0 y ${getScale()}`, 'error');
+      return;
     }
   }
 
@@ -139,7 +141,7 @@ function updateGrade(courseId, assignmentId, newGrade) {
   } else {
     const grade = parseFloat(newGrade);
     if (isNaN(grade) || grade < 0 || grade > getScale()) {
-      alert(`La nota debe estar entre 0 y ${getScale()}`);
+      showToast(`La nota debe estar entre 0 y ${getScale()}`, 'error');
       render();
       return;
     }
@@ -237,12 +239,12 @@ function addSemesterCourse(name, grade, credits) {
   render();
 }
 
-function removeSemesterCourse(id) {
-  if (confirm('¿Eliminar este curso del promedio?')) {
-    state.semesterCourses = state.semesterCourses.filter((c) => c.id !== id);
-    save();
-    render();
-  }
+async function removeSemesterCourse(id) {
+  const yes = await window.showConfirm('¿Eliminar curso?', '¿Eliminar este curso del promedio?', { okText: 'Sí, eliminar' });
+  if (!yes) return;
+  state.semesterCourses = state.semesterCourses.filter((c) => c.id !== id);
+  save();
+  render();
 }
 
 function calculateSemesterAverage(courses) {
@@ -647,9 +649,9 @@ document.getElementById('semesterForm')?.addEventListener('submit', (e) => {
   const name = nameInput.value.trim();
   const grade = parseFloat(gradeInput.value);
   const credits = parseFloat(creditsInput.value);
-  if (!name) return alert('Ingrese el nombre del curso');
-  if (isNaN(grade) || grade < 0 || grade > getScale()) return alert(`La nota debe estar entre 0 y ${getScale()}`);
-  if (isNaN(credits) || credits <= 0) return alert('Ingrese los créditos del curso');
+  if (!name) { showToast('Ingrese el nombre del curso', 'error'); return; }
+  if (isNaN(grade) || grade < 0 || grade > getScale()) { showToast(`La nota debe estar entre 0 y ${getScale()}`, 'error'); return; }
+  if (isNaN(credits) || credits <= 0) { showToast('Ingrese los créditos del curso', 'error'); return; }
   addSemesterCourse(name, grade, credits);
   nameInput.value = '';
   gradeInput.value = '';

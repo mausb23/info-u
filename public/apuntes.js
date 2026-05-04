@@ -47,7 +47,7 @@ function removeCourse(id) {
   const course = state.courses.find((c) => c.id === id);
   if (!course) return;
   if (course.notes.length > 0) {
-    alert('Elimina todos los apuntes del curso antes de eliminarlo.');
+    showToast('Elimina todos los apuntes del curso antes de eliminarlo.', 'warning');
     return;
   }
   state.courses = state.courses.filter((c) => c.id !== id);

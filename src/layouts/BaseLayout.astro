@@ -65,6 +65,7 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
       document.addEventListener('DOMContentLoaded', syncIcon);
     })();
   </script>
+  <script is:inline src="/ui.js"></script>
   <style is:global>
     html { font-family: 'Inter', sans-serif; }
     input[type="number"]::-webkit-outer-spin-button,
@@ -86,6 +87,27 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
   <div class="flex-1">
     <slot />
   </div>
+
+  <!-- Toast notifications -->
+  <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] flex flex-col items-center gap-2 pointer-events-none"></div>
+
+  <!-- Confirm modal -->
+  <div id="confirmOverlay" class="hidden fixed inset-0 z-[150] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white dark-surface rounded-2xl shadow-2xl border border-slate-200 dark-border max-w-sm w-full p-6">
+      <div class="text-center">
+        <div class="w-14 h-14 bg-slate-100 dark-muted-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <i id="confirmIcon" class="fas fa-exclamation-triangle text-red-400 text-xl"></i>
+        </div>
+        <h2 id="confirmTitle" class="text-lg font-bold text-slate-800 dark-text-primary mb-2"></h2>
+        <p id="confirmMessage" class="text-sm text-slate-500 dark-text-muted mb-6"></p>
+        <div class="flex gap-3 justify-center">
+          <button id="confirmCancel" class="px-5 py-2.5 rounded-xl border border-slate-200 dark-border text-sm font-semibold text-slate-600 dark-text-secondary hover:bg-slate-50 dark-hover-surface transition-all">Cancelar</button>
+          <button id="confirmOk" class="px-5 py-2.5 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-all shadow-lg">Sí, eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="border-t border-slate-200/60 dark-border bg-white/50 dark-nav">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
       <p class="text-[11px] text-slate-400 dark-text-dim text-center leading-relaxed">
