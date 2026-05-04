@@ -1,6 +1,6 @@
 ---
 interface Props {
-  activePage: 'menu' | 'grades' | 'buses' | 'schedule';
+  activePage: 'menu' | 'grades' | 'buses' | 'schedule' | 'apuntes';
 }
 
 const { activePage } = Astro.props;
@@ -8,6 +8,7 @@ const { activePage } = Astro.props;
 const navItems = [
   { id: 'menu' as const, label: 'Inicio', icon: 'fa-house', href: '/' },
   { id: 'buses' as const, label: 'Buses', icon: 'fa-bus', href: '/buses' },
+  { id: 'apuntes' as const, label: 'Apuntes', icon: 'fa-sticky-note', href: '/apuntes' },
   { id: 'schedule' as const, label: 'Horario', icon: 'fa-calendar-alt', href: '/schedule' },
   { id: 'grades' as const, label: 'Notas', icon: 'fa-chart-pie', href: '/grades' },
 ];
