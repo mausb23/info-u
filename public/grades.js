@@ -465,11 +465,11 @@ function render() {
                 const hasGrade = a.grade !== null && a.grade !== undefined;
                 const points = hasGrade ? (a.grade * (a.weight / getScale())).toFixed(2) : '-';
                 if (!hasGrade) {
-                  return `<div class="bg-amber-50 rounded-xl border border-amber-200 transition-all group">
+                  return `<div class="bg-amber-50 dark-route-amber-bg rounded-xl border border-amber-200 transition-all group">
                     <div class="flex items-center justify-between p-3 hover:bg-slate-100 dark-hover-surface">
                       <div class="flex-1 min-w-0">
                         <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
-                        <p class="text-[10px] font-bold text-amber-500 uppercase">Nota pendiente · Peso: ${a.weight}%</p>
+                        <p class="text-[10px] font-bold text-amber-500 dark-amber-banner-text uppercase">Nota pendiente · Peso: ${a.weight}%</p>
                       </div>
                       <div class="flex items-center gap-2 flex-shrink-0 ml-3">
                         <input type="number" placeholder="Nota" min="0" max="${getScale()}" step="0.01" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input focus:ring-1 focus:ring-amber-400 outline-none">
@@ -480,7 +480,7 @@ function render() {
                     </div>
                     <div class="px-3 pb-3 border-t border-dashed border-amber-200 dark-border pt-2">
                       <div class="flex items-center gap-2 flex-wrap">
-                        <span class="text-[10px] text-amber-600 dark-text-dim font-semibold"><i class="fas fa-calculator mr-1"></i>¿Qué nota crees?</span>
+                        <span class="text-[10px] text-amber-600 dark-amber-banner-title font-semibold"><i class="fas fa-calculator mr-1"></i>¿Qué nota crees?</span>
                         <input type="number" placeholder="0-${getScale()}" min="0" max="${getScale()}" step="0.01" oninput="window.whatIfUpdate('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input outline-none focus:ring-1 focus:ring-amber-400">
                         <span id="whatif-result-${course.id}-${a.id}" class="text-[10px] font-bold text-slate-400 dark-text-dim">→ : —</span>
                         <span id="whatif-indicator-${course.id}-${a.id}" class="text-[10px] font-bold"></span>
