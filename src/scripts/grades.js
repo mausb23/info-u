@@ -182,16 +182,15 @@ function whatIfUpdate(courseId, assignmentId, value) {
   }
 
   const stats = calculateCourseWithHypothetical(course, assignmentId, parsed);
-  const threshold = getScale() === 10 ? 7 : 70;
-  const passing = stats.average >= threshold || stats.gradedWeight === 0;
+  const info = getStatusInfo(stats.average, getScale(), stats.gradedWeight);
 
   resultSpan.textContent = `→ ${stats.average.toFixed(2)}`;
-  resultSpan.className = `text-[10px] font-bold ${passing ? 'text-emerald-600' : 'text-rose-600'}`;
+  resultSpan.className = `text-[10px] font-bold ${info.colorClass}`;
 
   if (indicator) {
     if (stats.gradedWeight > 0) {
-      indicator.textContent = passing ? '✓ Aprobado' : '✗ En riesgo';
-      indicator.className = `text-[10px] font-bold ${passing ? 'text-emerald-600' : 'text-rose-600'}`;
+      indicator.textContent = info.label;
+      indicator.className = `text-[10px] font-bold ${info.colorClass}`;
     } else {
       indicator.textContent = '';
     }
@@ -297,6 +296,20 @@ function calculateCourseWithHypothetical(course, hypotheticalId, hypotheticalGra
     gradedWeight,
     remainingWeight: getScale() - totalWeight,
   };
+}
+
+function getStatusInfo(avg, scale, gradedWeight) {
+  if (gradedWeight === 0) {
+    return { label: 'Sin notas', colorClass: 'text-slate-400 dark-text-dim', bgClass: 'bg-slate-50 border-slate-200 dark-muted-bg dark-border', textClass: 'text-slate-500 dark-text-dim' };
+  }
+  const base10 = scale === 100 ? avg / 10 : avg;
+  if (base10 >= 7.0) {
+    return { label: 'Aprobado', colorClass: 'text-emerald-600 dark-text-primary', bgClass: 'bg-emerald-50 border-emerald-100 dark-muted-bg dark-border', textClass: 'text-emerald-700 dark-text-secondary' };
+  }
+  if (base10 >= 6.0) {
+    return { label: 'Ampliación', colorClass: 'text-amber-600 dark-amber-banner-title', bgClass: 'bg-amber-50 border-amber-200 dark-route-amber-bg', textClass: 'text-amber-700 dark-amber-banner-text' };
+  }
+  return { label: 'Reprobado', colorClass: 'text-rose-600 dark-text-primary', bgClass: 'bg-rose-50 border-rose-100 dark-muted-bg dark-border', textClass: 'text-rose-700 dark-text-secondary' };
 }
 
 function escapeHtml(text) {
@@ -449,11 +462,7 @@ function render() {
       globalCourseCount++;
       globalWeightSum += stats.completedWeight;
 
-      const threshold = getScale() === 10 ? 7 : 70;
-      const isPassing = stats.average >= threshold || stats.gradedWeight === 0;
-      const statusColor = isPassing ? 'text-emerald-600 dark-text-primary' : 'text-rose-600 dark-text-primary';
-      const statusBg = isPassing ? 'bg-emerald-50 border-emerald-100 dark-muted-bg dark-border' : 'bg-rose-50 border-rose-100 dark-muted-bg dark-border';
-      const statusText = isPassing ? 'text-emerald-700 dark-text-secondary' : 'text-rose-700 dark-text-secondary';
+      const statusInfo = getStatusInfo(stats.average, getScale(), stats.gradedWeight);
 
       const assignmentsHTML =
         course.assignments.length === 0
@@ -513,7 +522,8 @@ function render() {
             <div class="flex items-center gap-4 mt-2 flex-wrap">
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Promedio:</span>
-                <span class="text-lg font-bold ${statusColor}">${stats.gradedWeight > 0 ? stats.average.toFixed(2) : 'N/A'}</span>
+                <span class="text-lg font-bold ${statusInfo.colorClass}">${stats.gradedWeight > 0 ? stats.average.toFixed(2) : 'N/A'}</span>
+                ${stats.gradedWeight > 0 ? `<span class="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold ${statusInfo.bgClass} ${statusInfo.textClass}">${statusInfo.label}</span>` : ''}
               </div>
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Peso:</span>
@@ -539,11 +549,11 @@ function render() {
           </div>
 
           <div class="space-y-6">
-            <div class="${statusBg} border p-4 rounded-2xl">
+            <div class="${statusInfo.bgClass} border p-4 rounded-2xl">
               <h4 class="text-xs font-bold text-slate-500 dark-text-muted uppercase mb-2">Peso restante</h4>
               <div class="flex justify-between items-end">
                 <span class="text-2xl font-black text-slate-700 dark-text-primary">${stats.remainingWeight}</span>
-                <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : `${statusText} animate-pulse`}">
+                <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : `${statusInfo.textClass} animate-pulse`}">
                   ${stats.remainingWeight === 0 ? 'Completo' : 'Pendiente'}
                 </span>
               </div>
