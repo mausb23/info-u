@@ -91,6 +91,18 @@ function makeDir(label: string, desc: string, icon: string, rawTimes: string[]):
 
 const externalRoutes: Route[] = [
   {
+    name: 'Acosta',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'indigo',
+    tarifa: 1330,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de Acosta', 'fa-arrow-right', ['05:15 a.m.']),
+      makeDir('Hacia Acosta', 'Salidas de la UCR', 'fa-arrow-left', ['05:15 p.m.']),
+    ],
+  },
+  {
     name: 'Alajuela',
     description: 'Ruta interurbana',
     icon: 'fa-bus',
@@ -131,6 +143,40 @@ const externalRoutes: Route[] = [
     ],
   },
   {
+    name: 'Coronado',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'emerald',
+    tarifa: 630,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de Coronado', 'fa-arrow-right', [
+        '06:00 a.m.', '06:15 a.m.', '07:10 a.m.', '08:20 a.m.', '09:20 a.m.',
+        '12:20 p.m.', '02:20 p.m.', '03:20 p.m.', '04:05 p.m.', '05:05 p.m.', '06:05 p.m.',
+      ]),
+      makeDir('Hacia Coronado', 'Salidas de la UCR', 'fa-arrow-left', [
+        '08:10 a.m.', '09:10 a.m.', '10:10 a.m.', '01:10 p.m.', '03:10 p.m.',
+        '04:10 p.m.', '05:10 p.m.', '06:10 p.m.', '07:10 p.m.', '08:10 p.m.', '09:30 p.m.',
+      ]),
+    ],
+  },
+  {
+    name: 'Desamparados',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'slate',
+    tarifa: 600,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de Desamparados', 'fa-arrow-right', [
+        '05:55 a.m.', '06:55 a.m. (Gravilias)',
+      ]),
+      makeDir('Hacia Desamparados', 'Salidas de la UCR', 'fa-arrow-left', [
+        '04:30 p.m.', '06:05 p.m.',
+      ]),
+    ],
+  },
+  {
     name: 'Desamparados (San Rafael Abajo / San Juan de Dios)',
     description: 'Ruta interurbana',
     icon: 'fa-bus',
@@ -145,6 +191,60 @@ const externalRoutes: Route[] = [
       makeDir('Hacia Desamparados', 'Salidas de la UCR', 'fa-arrow-left', [
         '01:15 p.m.', '05:15 p.m.', '07:15 p.m.', '09:15 p.m. (Viernes NO hay 9:15 p.m.)',
       ]),
+    ],
+  },
+  {
+    name: 'Heredia',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'fuchsia',
+    tarifa: 790,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de Heredia', 'fa-arrow-right', [
+        '05:35 a.m.', '05:50 a.m.', '06:00 a.m.', '06:30 a.m.', '07:00 a.m.', '08:00 a.m.',
+        '09:00 a.m.', '10:00 a.m.', '11:00 a.m.', '12:00 m.d.', '01:00 p.m.', '02:00 p.m.',
+        '03:00 p.m.', '04:00 p.m.', '05:00 p.m.', '06:00 p.m.', '07:05 p.m.', '08:00 p.m.', '09:05 p.m.',
+      ]),
+      makeDir('Hacia Heredia', 'Salidas de la UCR', 'fa-arrow-left', [
+        '06:45 a.m.', '07:00 a.m.', '08:00 a.m.', '09:00 a.m.', '10:00 a.m.', '11:00 a.m.',
+        '12:00 m.d.', '01:00 p.m.', '02:00 p.m.', '03:00 p.m.', '04:05 p.m.', '05:05 p.m.',
+        '06:05 p.m.', '07:05 p.m.', '08:00 p.m.', '09:00 p.m.', '10:00 p.m.',
+      ]),
+    ],
+    sabados: {
+      directions: [
+        makeDir('Hacia la UCR', 'Sábados - Salidas de Heredia', 'fa-arrow-right', ['07:00 a.m.']),
+        makeDir('Hacia Heredia', 'Sábados - Salidas de la UCR', 'fa-arrow-left', ['12:00 m.d.']),
+      ],
+    },
+  },
+  {
+    name: 'Pavas',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'orange',
+    tarifa: 680,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de Pavas', 'fa-arrow-right', [
+        '06:10 a.m.', '08:10 a.m.', '12:10 p.m.', '03:10 p.m.', '06:10 p.m.',
+      ]),
+      makeDir('Hacia Pavas', 'Salidas de la UCR', 'fa-arrow-left', [
+        '11:10 a.m.', '01:10 p.m.', '04:10 p.m.',
+      ]),
+    ],
+  },
+  {
+    name: 'San Ramón',
+    description: 'Ruta interurbana',
+    icon: 'fa-bus',
+    color: 'purple',
+    tarifa: 2200,
+    badge: 'Lun - Vie',
+    directions: [
+      makeDir('Hacia la UCR', 'Salidas de San Ramón', 'fa-arrow-right', ['05:00 a.m.']),
+      makeDir('Hacia San Ramón', 'Salidas de la UCR', 'fa-arrow-left', ['05:15 p.m.']),
     ],
   },
   {
@@ -182,106 +282,6 @@ const externalRoutes: Route[] = [
         '03:05 p.m.', '04:05 p.m.', '05:05 p.m.', '06:05 p.m.', '07:05 p.m.', '08:05 p.m.',
       ]),
     ],
-  },
-  {
-    name: 'Pavas',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'orange',
-    tarifa: 680,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de Pavas', 'fa-arrow-right', [
-        '06:10 a.m.', '08:10 a.m.', '12:10 p.m.', '03:10 p.m.', '06:10 p.m.',
-      ]),
-      makeDir('Hacia Pavas', 'Salidas de la UCR', 'fa-arrow-left', [
-        '11:10 a.m.', '01:10 p.m.', '04:10 p.m.',
-      ]),
-    ],
-  },
-  {
-    name: 'San Ramón',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'purple',
-    tarifa: 2200,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de San Ramón', 'fa-arrow-right', ['05:00 a.m.']),
-      makeDir('Hacia San Ramón', 'Salidas de la UCR', 'fa-arrow-left', ['05:15 p.m.']),
-    ],
-  },
-  {
-    name: 'Desamparados',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'slate',
-    tarifa: 600,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de Desamparados', 'fa-arrow-right', [
-        '05:55 a.m.', '06:55 a.m. (Gravilias)',
-      ]),
-      makeDir('Hacia Desamparados', 'Salidas de la UCR', 'fa-arrow-left', [
-        '04:30 p.m.', '06:05 p.m.',
-      ]),
-    ],
-  },
-  {
-    name: 'Acosta',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'indigo',
-    tarifa: 1330,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de Acosta', 'fa-arrow-right', ['05:15 a.m.']),
-      makeDir('Hacia Acosta', 'Salidas de la UCR', 'fa-arrow-left', ['05:15 p.m.']),
-    ],
-  },
-  {
-    name: 'Coronado',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'emerald',
-    tarifa: 630,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de Coronado', 'fa-arrow-right', [
-        '06:00 a.m.', '06:15 a.m.', '07:10 a.m.', '08:20 a.m.', '09:20 a.m.',
-        '12:20 p.m.', '02:20 p.m.', '03:20 p.m.', '04:05 p.m.', '05:05 p.m.', '06:05 p.m.',
-      ]),
-      makeDir('Hacia Coronado', 'Salidas de la UCR', 'fa-arrow-left', [
-        '08:10 a.m.', '09:10 a.m.', '10:10 a.m.', '01:10 p.m.', '03:10 p.m.',
-        '04:10 p.m.', '05:10 p.m.', '06:10 p.m.', '07:10 p.m.', '08:10 p.m.', '09:30 p.m.',
-      ]),
-    ],
-  },
-  {
-    name: 'Heredia',
-    description: 'Ruta interurbana',
-    icon: 'fa-bus',
-    color: 'fuchsia',
-    tarifa: 790,
-    badge: 'Lun - Vie',
-    directions: [
-      makeDir('Hacia la UCR', 'Salidas de Heredia', 'fa-arrow-right', [
-        '05:35 a.m.', '05:50 a.m.', '06:00 a.m.', '06:30 a.m.', '07:00 a.m.', '08:00 a.m.',
-        '09:00 a.m.', '10:00 a.m.', '11:00 a.m.', '12:00 m.d.', '01:00 p.m.', '02:00 p.m.',
-        '03:00 p.m.', '04:00 p.m.', '05:00 p.m.', '06:00 p.m.', '07:05 p.m.', '08:00 p.m.', '09:05 p.m.',
-      ]),
-      makeDir('Hacia Heredia', 'Salidas de la UCR', 'fa-arrow-left', [
-        '06:45 a.m.', '07:00 a.m.', '08:00 a.m.', '09:00 a.m.', '10:00 a.m.', '11:00 a.m.',
-        '12:00 m.d.', '01:00 p.m.', '02:00 p.m.', '03:00 p.m.', '04:05 p.m.', '05:05 p.m.',
-        '06:05 p.m.', '07:05 p.m.', '08:00 p.m.', '09:00 p.m.', '10:00 p.m.',
-      ]),
-    ],
-    sabados: {
-      directions: [
-        makeDir('Hacia la UCR', 'Sábados - Salidas de Heredia', 'fa-arrow-right', ['07:00 a.m.']),
-        makeDir('Hacia Heredia', 'Sábados - Salidas de la UCR', 'fa-arrow-left', ['12:00 m.d.']),
-      ],
-    },
   },
 ];
 
