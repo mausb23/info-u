@@ -1,7 +1,11 @@
 const STORAGE_KEY = 'weighted_grade_tracker_v1';
 
+function getScale() {
+  return state.scales[state.activeTab];
+}
+
 let state = {
-  scale: 100,
+  scales: { courses: 100, semester: 100 },
   courses: [],
   selectedCourseId: null,
   activeTab: 'courses',
@@ -13,6 +17,9 @@ function init() {
   if (saved) {
     const parsed = JSON.parse(saved);
     state = { ...state, ...parsed, semesterCourses: parsed.semesterCourses || [] };
+    if (parsed.scale !== undefined && !parsed.scales) {
+      state.scales = { courses: parsed.scale, semester: parsed.scale };
+    }
   }
   updateScaleUI();
   render();
@@ -23,20 +30,23 @@ function save() {
 }
 
 function setScale(base) {
-  const oldScale = state.scale;
+  const oldScale = getScale();
   if (oldScale === base) return;
-  state.scale = base;
+  state.scales[state.activeTab] = base;
   const factor = base > oldScale ? 10 : 1 / 10;
-  for (const course of state.courses) {
-    for (const a of course.assignments) {
-      if (a.grade !== null && a.grade !== undefined) {
-        a.grade = Math.round(a.grade * factor * 100) / 100;
+  if (state.activeTab === 'courses') {
+    for (const course of state.courses) {
+      for (const a of course.assignments) {
+        if (a.grade !== null && a.grade !== undefined) {
+          a.grade = Math.round(a.grade * factor * 100) / 100;
+        }
+        a.weight = Math.round(a.weight * factor * 100) / 100;
       }
-      a.weight = Math.round(a.weight * factor * 100) / 100;
     }
-  }
-  for (const c of state.semesterCourses || []) {
-    c.grade = Math.round(c.grade * factor * 100) / 100;
+  } else {
+    for (const c of state.semesterCourses || []) {
+      c.grade = Math.round(c.grade * factor * 100) / 100;
+    }
   }
   updateScaleUI();
   save();
@@ -48,7 +58,7 @@ function updateScaleUI() {
   const b100 = document.getElementById('base100Btn');
   if (!b10 || !b100) return;
 
-  if (state.scale === 10) {
+  if (getScale() === 10) {
     b10.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold bg-white dark-surface text-indigo-600 shadow-sm';
     b100.className = 'px-4 py-1.5 rounded-lg text-sm font-semibold text-slate-500 dark-text-muted hover:text-slate-700';
   } else {
@@ -85,21 +95,21 @@ function addAssignment(courseId) {
   const weight = parseFloat(weightInput.value);
 
   if (isNaN(weight) || weight <= 0) return alert('Ingrese un peso válido');
-  if (weight > state.scale) return alert(`El peso no puede exceder ${state.scale}`);
+  if (weight > getScale()) return alert(`El peso no puede exceder ${getScale()}`);
 
   const course = state.courses.find((c) => c.id === courseId);
   if (!course) return;
   const currentWeight = course.assignments.reduce((sum, a) => sum + a.weight, 0);
 
-  if (currentWeight + weight > state.scale) {
-    return alert(`El peso total no puede exceder ${state.scale}. Capacidad restante: ${(state.scale - currentWeight).toFixed(1)}`);
+  if (currentWeight + weight > getScale()) {
+    return alert(`El peso total no puede exceder ${getScale()}. Capacidad restante: ${(getScale() - currentWeight).toFixed(1)}`);
   }
 
   let grade = null;
   if (gradeValue !== '') {
     grade = parseFloat(gradeValue);
-    if (isNaN(grade) || grade < 0 || grade > state.scale) {
-      return alert(`La nota debe estar entre 0 y ${state.scale}`);
+    if (isNaN(grade) || grade < 0 || grade > getScale()) {
+      return alert(`La nota debe estar entre 0 y ${getScale()}`);
     }
   }
 
@@ -128,8 +138,8 @@ function updateGrade(courseId, assignmentId, newGrade) {
     assignment.grade = null;
   } else {
     const grade = parseFloat(newGrade);
-    if (isNaN(grade) || grade < 0 || grade > state.scale) {
-      alert(`La nota debe estar entre 0 y ${state.scale}`);
+    if (isNaN(grade) || grade < 0 || grade > getScale()) {
+      alert(`La nota debe estar entre 0 y ${getScale()}`);
       render();
       return;
     }
@@ -208,7 +218,7 @@ function calculateCourse(course) {
   course.assignments.forEach((a) => {
     totalWeight += a.weight;
     if (a.grade !== null && a.grade !== undefined) {
-      weightedSum += a.grade * (a.weight / state.scale);
+      weightedSum += a.grade * (a.weight / getScale());
       gradedWeight += a.weight;
     }
   });
@@ -217,7 +227,7 @@ function calculateCourse(course) {
     average: weightedSum,
     completedWeight: totalWeight,
     gradedWeight,
-    remainingWeight: state.scale - totalWeight,
+    remainingWeight: getScale() - totalWeight,
   };
 }
 
@@ -275,7 +285,7 @@ function renderSemester() {
       <div class="flex items-center gap-4 flex-shrink-0 ml-4">
         <div class="text-right">
           <p class="text-lg font-black text-slate-800 dark-text-primary">${c.grade}</p>
-          <p class="text-[10px] text-slate-400 dark-text-dim uppercase">/${state.scale}</p>
+          <p class="text-[10px] text-slate-400 dark-text-dim uppercase">/${getScale()}</p>
         </div>
         <button onclick="window.removeSemesterCourse('${c.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
           <i class="fas fa-times"></i>
@@ -301,7 +311,7 @@ function renderSemester() {
         </div>
         <div class="bg-slate-50 dark-muted-bg-alpha rounded-xl p-4 text-center">
           <p class="text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1">Escala</p>
-          <p class="text-3xl font-black text-slate-800 dark-text-primary">${state.scale}</p>
+          <p class="text-3xl font-black text-slate-800 dark-text-primary">${getScale()}</p>
         </div>
       </div>
     </div>
@@ -317,16 +327,14 @@ function render() {
   if (!coursesSection || !semesterSection) return;
 
   updateTabUI();
+  updateScaleUI();
 
   if (state.activeTab === 'semester') {
     coursesSection.classList.add('hidden');
     semesterSection.classList.remove('hidden');
 
     const gradeInput = document.getElementById('semCourseGrade');
-    if (gradeInput) gradeInput.max = state.scale;
-
-    const scaleBtns = document.getElementById('scaleButtons');
-    if (scaleBtns) scaleBtns.classList.add('hidden');
+    if (gradeInput) gradeInput.max = getScale();
 
     renderSemester();
     return;
@@ -334,9 +342,6 @@ function render() {
 
   coursesSection.classList.remove('hidden');
   semesterSection.classList.add('hidden');
-
-  const scaleBtns = document.getElementById('scaleButtons');
-  if (scaleBtns) scaleBtns.classList.remove('hidden');
 
   const container = document.getElementById('coursesList');
   const emptyState = document.getElementById('emptyState');
@@ -368,7 +373,7 @@ function render() {
       globalCourseCount++;
       globalWeightSum += stats.completedWeight;
 
-      const threshold = state.scale === 10 ? 7 : 70;
+      const threshold = getScale() === 10 ? 7 : 70;
       const isPassing = stats.average >= threshold || stats.gradedWeight === 0;
       const statusColor = isPassing ? 'text-emerald-600' : 'text-rose-600';
       const statusBg = isPassing ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100';
@@ -382,7 +387,7 @@ function render() {
           : course.assignments
               .map((a) => {
                 const hasGrade = a.grade !== null && a.grade !== undefined;
-                const points = hasGrade ? (a.grade * (a.weight / state.scale)).toFixed(2) : '-';
+                const points = hasGrade ? (a.grade * (a.weight / getScale())).toFixed(2) : '-';
                 return `<div class="flex items-center justify-between p-3 ${hasGrade ? 'bg-slate-50 dark-muted-bg-alpha' : 'bg-amber-50'} hover:bg-slate-100 dark-hover-surface rounded-xl border ${hasGrade ? 'border-slate-200 dark-border' : 'border-amber-200'} transition-all group">
                   <div class="flex-1 min-w-0">
                     <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
@@ -390,7 +395,7 @@ function render() {
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 ml-3">
                     ${!hasGrade
-                      ? `<input type="number" placeholder="Nota" min="0" max="${state.scale}" step="0.01" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input focus:ring-1 focus:ring-amber-400 outline-none">`
+                      ? `<input type="number" placeholder="Nota" min="0" max="${getScale()}" step="0.01" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-amber-300 dark-input focus:ring-1 focus:ring-amber-400 outline-none">`
                       : `<div class="text-right">
                           <p class="text-sm font-bold text-slate-800 dark-text-secondary">+${points}</p>
                           <p class="text-[10px] text-slate-400 dark-text-dim uppercase">Puntos</p>
@@ -414,7 +419,7 @@ function render() {
               </div>
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Peso:</span>
-                <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight} / ${state.scale}</span>
+                <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight} / ${getScale()}</span>
               </div>
             </div>
           </div>
@@ -424,7 +429,7 @@ function render() {
         </div>
 
           <div class="w-full h-1.5 bg-slate-100 dark-progress-bg overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style="width: ${(stats.completedWeight / state.scale) * 100}%"></div>
+            <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style="width: ${(stats.completedWeight / getScale()) * 100}%"></div>
           </div>
 
         <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -453,11 +458,11 @@ function render() {
                 <div class="grid grid-cols-2 gap-3">
                   <div>
                     <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Nota (opcional)</label>
-                    <input type="number" id="asn-grade-${course.id}" placeholder="--" step="0.01" max="${state.scale}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <input type="number" id="asn-grade-${course.id}" placeholder="--" step="0.01" max="${getScale()}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                   <div>
                     <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Peso *</label>
-                    <input type="number" id="asn-weight-${course.id}" placeholder="0-${state.scale}" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <input type="number" id="asn-weight-${course.id}" placeholder="0-${getScale()}" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                 </div>
                 <button onclick="window.addAssignment('${course.id}')" class="w-full py-2.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-black transition-all">
@@ -496,7 +501,7 @@ function updateDashboard(avg, count, weight) {
     if (l2) l2.textContent = 'Cursos';
     if (l3) l3.textContent = 'Créditos';
   } else {
-    if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
+    if (gw) gw.textContent = `${Math.round(weight)} / ${getScale()}`;
     if (l1) l1.textContent = 'Promedio Global';
     if (l2) l2.textContent = 'Cursos Activos';
     if (l3) l3.textContent = 'Peso Promedio';
@@ -542,7 +547,7 @@ document.getElementById('semesterForm')?.addEventListener('submit', (e) => {
   const grade = parseFloat(gradeInput.value);
   const credits = parseFloat(creditsInput.value);
   if (!name) return alert('Ingrese el nombre del curso');
-  if (isNaN(grade) || grade < 0 || grade > state.scale) return alert(`La nota debe estar entre 0 y ${state.scale}`);
+  if (isNaN(grade) || grade < 0 || grade > getScale()) return alert(`La nota debe estar entre 0 y ${getScale()}`);
   if (isNaN(credits) || credits <= 0) return alert('Ingrese los créditos del curso');
   addSemesterCourse(name, grade, credits);
   nameInput.value = '';
