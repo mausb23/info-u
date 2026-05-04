@@ -90,7 +90,13 @@ html.dark .dark-progress-bg {
 }
 
 html.dark .dark-badge-slate {
-  background-color: #33415580 !important;
+  background-color: #47556980 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .dark-route-slate-bg {
+  background-color: #3341554d !important;
+  border-color: #475569 !important;
 }
 
 html.dark .dark-icon-bg {
