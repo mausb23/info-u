@@ -88,7 +88,7 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
                 class="border-t border-slate-100 dark-border pr-2 flex items-start justify-end pt-1"
                 style={{ gridRow: i + 2, gridColumn: 1 }}
               >
-                <span class="text-[11px] font-medium text-slate-400 dark-text-dim leading-none">{pad2(hour)}:00</span>
+                <span class="text-[10px] font-medium text-slate-400 dark-text-dim leading-none">{pad2(hour)}:00 - {pad2(hour)}:50</span>
               </div>
             ))}
 
@@ -125,11 +125,8 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
                   >
                     <div class="flex items-start justify-between gap-1 h-full">
                       <div class="min-w-0 flex-1">
-                        <p class="text-[12px] font-bold leading-tight truncate text-slate-800 dark-text-primary">
+                        <p class="text-[11px] font-bold leading-tight break-words text-slate-800 dark-text-primary">
                           {course.name}
-                        </p>
-                        <p class="text-[10px] text-slate-500 dark-text-muted leading-tight mt-0.5">
-                          {pad2(course.startHour)}:00 - {pad2(course.endHour)}:50
                         </p>
                       </div>
                       <button
