@@ -88,10 +88,10 @@ export function exportScheduleImage(courses) {
   ctx.fillStyle = '#94a3b8';
   ctx.font = '11px Inter, system-ui, sans-serif';
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'top';
+  ctx.textBaseline = 'middle';
   HOURS.forEach((hour, i) => {
     const x = LABEL_W / 2;
-    const y = HEADER_H + i * ROW_H + 4;
+    const y = HEADER_H + i * ROW_H + ROW_H / 2;
     ctx.fillText(`${pad2(hour)}:00 - ${pad2(hour)}:50`, x, y);
   });
 
