@@ -8,9 +8,14 @@ const { activePage } = Astro.props;
 const navItems = [
   { id: 'menu' as const, label: 'Inicio', icon: 'fa-house', href: '/' },
   { id: 'buses' as const, label: 'Buses', icon: 'fa-bus', href: '/buses' },
-  { id: 'apuntes' as const, label: 'Apuntes', icon: 'fa-sticky-note', href: '/apuntes' },
   { id: 'schedule' as const, label: 'Horario', icon: 'fa-calendar-alt', href: '/schedule' },
-  { id: 'grades' as const, label: 'Notas', icon: 'fa-chart-pie', href: '/grades' },
+];
+
+const isNotasGroup = activePage === 'grades' || activePage === 'apuntes';
+
+const dropdownItems = [
+  { id: 'grades' as const, label: 'Control de Notas', icon: 'fa-chart-pie', href: '/grades' },
+  { id: 'apuntes' as const, label: 'Apuntes', icon: 'fa-sticky-note', href: '/apuntes' },
 ];
 ---
 
@@ -38,6 +43,36 @@ const navItems = [
             <span class="hidden sm:inline">{item.label}</span>
           </a>
         ))}
+
+        <!-- Notas dropdown -->
+        <div class="relative" id="notasDropdown">
+          <button id="notasDropdownBtn" class={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+            isNotasGroup
+              ? 'bg-white dark-nav-active text-indigo-600 shadow-sm'
+              : 'text-slate-500 dark-nav-inactive hover:text-slate-700 hover:bg-white/50'
+          }`}>
+            <i class="fas fa-pencil-alt text-xs"></i>
+            <span class="hidden sm:inline">Notas</span>
+            <i id="notasChevron" class="fas fa-chevron-down text-[8px] transition-transform duration-200"></i>
+          </button>
+
+          <div id="notasDropdownMenu" class="hidden absolute top-full right-0 mt-1 bg-white dark-surface rounded-xl border border-slate-200/80 dark-border shadow-xl py-1.5 min-w-[200px] z-[60]">
+            {dropdownItems.map((item) => (
+              <a
+                href={item.href}
+                class={`flex items-center gap-3 px-4 py-2.5 mx-1 rounded-lg text-sm font-medium transition-all ${
+                  activePage === item.id
+                    ? 'bg-indigo-50 dark-nav-active text-indigo-600'
+                    : 'text-slate-600 dark-text-secondary hover:bg-slate-50 dark-hover-surface'
+                }`}
+              >
+                <i class={`fas ${item.icon} text-xs w-4 text-center`}></i>
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <button id="themeToggle" onclick="window.toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 dark-theme-btn hover:bg-slate-200 transition-all ml-1" aria-label="Cambiar tema">
           <i id="themeIcon" class="fas fa-moon"></i>
         </button>
@@ -45,3 +80,28 @@ const navItems = [
     </div>
   </div>
 </nav>
+
+<script>
+  (function() {
+    var btn = document.getElementById('notasDropdownBtn');
+    var menu = document.getElementById('notasDropdownMenu');
+    var chevron = document.getElementById('notasChevron');
+    if (!btn || !menu) return;
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var open = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', open);
+      if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
+    });
+
+    document.addEventListener('click', function() {
+      menu.classList.add('hidden');
+      if (chevron) chevron.style.transform = '';
+    });
+
+    menu.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  })();
+</script>
