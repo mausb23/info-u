@@ -1,6 +1,6 @@
 import { DAYS, HOURS } from './conflicts';
 
-const LABEL_W = 64;
+const LABEL_W = 80;
 const CELL_W = 124;
 const ROW_H = 50;
 const HEADER_H = 36;
@@ -87,10 +87,10 @@ export function exportScheduleImage(courses) {
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '11px Inter, system-ui, sans-serif';
-  ctx.textAlign = 'right';
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   HOURS.forEach((hour, i) => {
-    const x = LABEL_W - 8;
+    const x = 10;
     const y = HEADER_H + i * ROW_H + 4;
     ctx.fillText(`${pad2(hour)}:00 - ${pad2(hour)}:50`, x, y);
   });
