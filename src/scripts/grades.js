@@ -11,7 +11,8 @@ let state = {
 function init() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
-    state = JSON.parse(saved);
+    const parsed = JSON.parse(saved);
+    state = { ...state, ...parsed, semesterCourses: parsed.semesterCourses || [] };
   }
   updateScaleUI();
   render();
@@ -34,7 +35,7 @@ function setScale(base) {
       a.weight = Math.round(a.weight * factor * 100) / 100;
     }
   }
-  for (const c of state.semesterCourses) {
+  for (const c of state.semesterCourses || []) {
     c.grade = Math.round(c.grade * factor * 100) / 100;
   }
   updateScaleUI();
