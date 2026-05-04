@@ -546,11 +546,11 @@ function render() {
           </div>
 
           <div class="space-y-6">
-            <div class="${statusInfo.bgClass} border p-4 rounded-2xl">
+            <div class="bg-slate-50 dark-muted-bg border border-slate-200 dark-border p-4 rounded-2xl">
               <h4 class="text-xs font-bold text-slate-500 dark-text-muted uppercase mb-2">Peso restante</h4>
               <div class="flex justify-between items-end">
                 <span class="text-2xl font-black text-slate-700 dark-text-primary">${stats.remainingWeight}</span>
-                <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : `${statusInfo.textClass} animate-pulse`}">
+                <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : 'text-amber-500 dark-amber-banner-text animate-pulse'}">
                   ${stats.remainingWeight === 0 ? 'Completo' : 'Pendiente'}
                 </span>
               </div>
