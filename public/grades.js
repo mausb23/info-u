@@ -378,7 +378,7 @@ function renderSemester() {
   if (state.semesterCourses.length === 0) {
     container.innerHTML = '';
     empty.classList.remove('hidden');
-    updateDashboard(0, 0, 0);
+    updateDashboard(0);
     return;
   }
 
@@ -437,7 +437,7 @@ function renderSemester() {
     </div>
   `;
 
-  updateDashboard(stats.average, stats.courseCount, stats.totalCredits);
+  updateDashboard(stats.courseCount);
 }
 
 function render() {
@@ -469,7 +469,7 @@ function render() {
   if (state.courses.length === 0) {
     container.innerHTML = '';
     emptyState.classList.remove('hidden');
-    updateDashboard(0, 0, 0);
+    updateDashboard(0);
     updateCourseSelector();
     return;
   }
@@ -597,30 +597,14 @@ function render() {
   }).length;
 
   const globalAvg = coursesWithGrades > 0 ? globalWeightedSum / coursesWithGrades : 0;
-  updateDashboard(globalAvg, globalCourseCount, globalWeightSum / globalCourseCount || 0);
+  updateDashboard(globalCourseCount);
 }
 
-function updateDashboard(avg, count, weight) {
-  const ga = document.getElementById('globalAverage');
+function updateDashboard(count) {
   const ac = document.getElementById('activeCourses');
-  const gw = document.getElementById('globalWeight');
-  const l1 = document.getElementById('dashboardLabel1');
-  const l2 = document.getElementById('dashboardLabel2');
-  const l3 = document.getElementById('dashboardLabel3');
-  if (ga) ga.textContent = avg > 0 ? avg.toFixed(2) : 'N/A';
+  const badge = document.getElementById('activeCoursesBadge');
   if (ac) ac.textContent = count.toString();
-
-  if (state.activeTab === 'semester') {
-    if (gw) gw.textContent = `${Math.round(weight)}`;
-    if (l1) l1.textContent = 'Promedio de Cursos';
-    if (l2) l2.textContent = 'Cursos';
-    if (l3) l3.textContent = 'Créditos';
-  } else {
-    if (gw) gw.textContent = `${Math.round(weight)} / ${getScale()}`;
-    if (l1) l1.textContent = 'Promedio Global';
-    if (l2) l2.textContent = 'Cursos Activos';
-    if (l3) l3.textContent = 'Peso Promedio';
-  }
+  if (badge) badge.classList.toggle('hidden', count === 0 || state.activeTab === 'semester');
 }
 
 window.setScale = setScale;

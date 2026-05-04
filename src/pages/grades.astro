@@ -10,30 +10,19 @@ import Nav from '../components/Nav.astro';
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <!-- Tabs -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div class="flex gap-1 bg-slate-100 dark-muted-bg p-1 rounded-xl border border-slate-200 dark-border w-fit">
-          <button id="tabCourses" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Control de Notas</button>
-          <button id="tabSemester" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Promedio de Cursos</button>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="flex gap-1 bg-slate-100 dark-muted-bg p-1 rounded-xl border border-slate-200 dark-border w-fit">
+            <button id="tabCourses" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Control de Notas</button>
+            <button id="tabSemester" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Promedio de Cursos</button>
+          </div>
+          <span id="activeCoursesBadge" class="hidden px-3 py-1.5 bg-white dark-surface rounded-lg border border-slate-200 dark-border text-xs font-bold text-slate-500 dark-text-muted">
+            <i class="fas fa-book-open mr-1.5"></i><span id="activeCourses">0</span> cursos
+          </span>
         </div>
         <div id="scaleButtons" class="flex items-center bg-white dark-surface p-1 rounded-xl border border-slate-200 dark-border shadow-sm">
           <span class="text-xs font-bold text-slate-400 dark-text-dim px-3 uppercase tracking-wider">Escala:</span>
           <button id="base10Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 10</button>
           <button id="base100Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 100</button>
-        </div>
-      </div>
-
-      <!-- Dashboard cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p id="dashboardLabel1" class="text-slate-400 dark-text-dim text-sm font-medium">Promedio Global</p>
-          <h3 id="globalAverage" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0.00</h3>
-        </div>
-        <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p id="dashboardLabel2" class="text-slate-400 dark-text-dim text-sm font-medium">Cursos Activos</p>
-          <h3 id="activeCourses" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0</h3>
-        </div>
-        <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p id="dashboardLabel3" class="text-slate-400 dark-text-dim text-sm font-medium">Peso Promedio</p>
-          <h3 id="globalWeight" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0%</h3>
         </div>
       </div>
 
