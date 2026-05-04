@@ -121,7 +121,7 @@ export default function ShareModal({ courses, onClose }) {
                 <button
                   onClick={handleDownloadImage}
                   disabled={exporting}
-                  class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm hover:from-indigo-600 hover:to-purple-700 transition-all disabled:opacity-60 shadow-lg shadow-indigo-200"
+                  class="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm hover:from-indigo-600 hover:to-purple-700 transition-all disabled:opacity-60 shadow-lg"
                 >
                   <i class={`fas ${exporting ? 'fa-spinner fa-spin' : 'fa-download'} mr-2`} />
                   {exporting ? 'Generando...' : 'Descargar PNG del Horario'}

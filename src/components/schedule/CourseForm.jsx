@@ -159,7 +159,7 @@ export default function CourseForm({ onAdd }) {
           <button
             type="submit"
             disabled={!name.trim() || selectedDays.length === 0}
-            class="w-full px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-200 text-sm"
+            class="w-full px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-lg text-sm"
           >
             <i class="fas fa-plus mr-1.5" />
             Agregar

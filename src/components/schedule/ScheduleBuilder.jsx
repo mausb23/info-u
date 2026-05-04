@@ -56,7 +56,7 @@ export default function ScheduleBuilder() {
           <div class="flex items-center gap-2 ml-auto">
             <button
               onClick={() => setShowShare(true)}
-              class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl text-sm hover:from-indigo-600 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200"
+              class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-xl text-sm hover:from-indigo-600 hover:to-purple-700 transition-all shadow-lg"
             >
               <i class="fas fa-share-alt mr-1.5" />
               Compartir
@@ -110,7 +110,7 @@ export default function ScheduleBuilder() {
                 </button>
                 <button
                   onClick={handleClear}
-                  class="px-5 py-2.5 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-200"
+                  class="px-5 py-2.5 rounded-xl bg-red-500 text-white text-sm font-bold hover:bg-red-600 transition-all shadow-lg"
                 >
                   Sí, eliminar
                 </button>
