@@ -325,12 +325,18 @@ function render() {
     const gradeInput = document.getElementById('semCourseGrade');
     if (gradeInput) gradeInput.max = state.scale;
 
+    const scaleBtns = document.getElementById('scaleButtons');
+    if (scaleBtns) scaleBtns.classList.add('hidden');
+
     renderSemester();
     return;
   }
 
   coursesSection.classList.remove('hidden');
   semesterSection.classList.add('hidden');
+
+  const scaleBtns = document.getElementById('scaleButtons');
+  if (scaleBtns) scaleBtns.classList.remove('hidden');
 
   const container = document.getElementById('coursesList');
   const emptyState = document.getElementById('emptyState');
