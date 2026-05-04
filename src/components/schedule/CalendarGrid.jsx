@@ -33,7 +33,7 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
 
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: `64px repeat(${DAYS.length}, 1fr)`,
+    gridTemplateColumns: `80px repeat(${DAYS.length}, 1fr)`,
     gridTemplateRows: `auto repeat(${totalRows}, ${ROW_HEIGHT}px)`,
   };
 
@@ -71,7 +71,7 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
           <div class="min-w-[700px]" style={gridStyle}>
             {/* Header row */}
             <div class="sticky top-0 z-10 bg-white dark-surface border-b-2 border-slate-200 dark-border" style={{ gridRow: 1, gridColumn: `1 / ${DAYS.length + 2}` }}>
-              <div style={{ display: 'grid', gridTemplateColumns: `64px repeat(${DAYS.length}, 1fr)` }}>
+              <div style={{ display: 'grid', gridTemplateColumns: `80px repeat(${DAYS.length}, 1fr)` }}>
                 <div class="h-10" />
                 {DAYS.map((day) => (
                   <div key={day} class="h-10 flex items-center justify-center">
@@ -85,10 +85,10 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
             {HOURS.map((hour, i) => (
               <div
                 key={`label-${hour}`}
-                class="border-t border-slate-100 dark-border flex items-center justify-center"
+                class="border-t border-slate-100 dark-border flex items-center justify-center px-1"
                 style={{ gridRow: i + 2, gridColumn: 1 }}
               >
-                <span class="text-[10px] font-medium text-slate-400 dark-text-dim leading-none">{pad2(hour)}:00 - {pad2(hour)}:50</span>
+                <span class="text-[10px] font-medium text-slate-400 dark-text-dim leading-none whitespace-nowrap">{pad2(hour)}:00 - {pad2(hour)}:50</span>
               </div>
             ))}
 
