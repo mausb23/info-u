@@ -85,10 +85,10 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
             {HOURS.map((hour, i) => (
               <div
                 key={`label-${hour}`}
-                class="border-t border-slate-100 dark-border flex items-center justify-start pl-[10px]"
+                class="border-t border-slate-100 dark-border flex items-center justify-center"
                 style={{ gridRow: i + 2, gridColumn: 1 }}
               >
-                <span class="text-[10px] font-medium text-slate-400 dark-text-dim leading-none whitespace-nowrap">{pad2(hour)}:00 - {pad2(hour)}:50</span>
+                <span class="text-[10px] font-medium text-slate-400 dark-text-dim leading-none whitespace-nowrap px-1">{pad2(hour)}:00 - {pad2(hour)}:50</span>
               </div>
             ))}
 
