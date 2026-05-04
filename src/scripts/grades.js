@@ -19,7 +19,17 @@ function save() {
 }
 
 function setScale(base) {
+  const oldScale = state.scale;
+  if (oldScale === base) return;
   state.scale = base;
+  const factor = base > oldScale ? 10 : 1 / 10;
+  for (const course of state.courses) {
+    for (const a of course.assignments) {
+      if (a.grade !== null && a.grade !== undefined) {
+        a.grade = Math.round(a.grade * factor * 100) / 100;
+      }
+    }
+  }
   updateScaleUI();
   save();
   render();
