@@ -177,7 +177,7 @@ function addSemesterCourse(name, grade, credits) {
 }
 
 function removeSemesterCourse(id) {
-  if (confirm('¿Eliminar este curso del promedio semestral?')) {
+  if (confirm('¿Eliminar este curso del promedio?')) {
     state.semesterCourses = state.semesterCourses.filter((c) => c.id !== id);
     save();
     render();
@@ -286,7 +286,7 @@ function renderSemester() {
   container.innerHTML = `
     <div class="bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm p-6 mb-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold text-slate-800 dark-text-primary">Resumen del Semestre</h2>
+        <h2 class="text-lg font-bold text-slate-800 dark-text-primary">Resumen General</h2>
         <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">${stats.courseCount} curso${stats.courseCount !== 1 ? 's' : ''}</span>
       </div>
       <div class="grid grid-cols-3 gap-4">
@@ -485,7 +485,7 @@ function updateDashboard(avg, count, weight) {
   if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
 
   if (state.activeTab === 'semester') {
-    if (l1) l1.textContent = 'Promedio Semestral';
+    if (l1) l1.textContent = 'Promedio de Cursos';
     if (l2) l2.textContent = 'Cursos';
     if (l3) l3.textContent = 'Créditos';
   } else {
