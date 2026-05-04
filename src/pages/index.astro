@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+
+const sections = [
+  {
+    title: 'Creador de Horarios',
+    description: 'Crea tu horario semanal, detecta conflictos y compártelo con amigos.',
+    icon: 'fa-calendar-alt',
+    color: 'from-violet-500 to-purple-600',
+    bgLight: 'bg-violet-50',
+    iconBg: 'bg-violet-100',
+    iconColor: 'text-violet-600',
+    href: '/schedule',
+  },
+  {
+    title: 'Control de Notas',
+    description: 'Controla tus notas ponderadas, administra cursos y tareas con cálculos en tiempo real.',
+    icon: 'fa-chart-pie',
+    color: 'from-indigo-500 to-blue-600',
+    bgLight: 'bg-indigo-50',
+    iconBg: 'bg-indigo-100',
+    iconColor: 'text-indigo-600',
+    href: '/grades',
+  },
+  {
+    title: 'Horarios de Bus',
+    description: 'Consulta las rutas internas, horarios y frecuencias de todas las rutas del campus.',
+    icon: 'fa-bus',
+    color: 'from-emerald-500 to-teal-600',
+    bgLight: 'bg-emerald-50',
+    iconBg: 'bg-emerald-100',
+    iconColor: 'text-emerald-600',
+    href: '/buses',
+  },
+];
+---
+
+<BaseLayout title="Campus App - Inicio" activePage="menu">
+  <Nav activePage="menu" />
+  
+  <main class="pt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 border border-indigo-100 rounded-full text-indigo-600 text-sm font-medium mb-6">
+          <span class="w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
+          Todas tus herramientas del campus en un solo lugar
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-black text-slate-900 dark-text-primary tracking-tight mb-4">
+          Bienvenido a <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Campus App</span>
+        </h1>
+        <p class="text-lg text-slate-500 dark-text-muted max-w-xl mx-auto">
+          Selecciona una sección para empezar a usar las herramientas del campus.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        {sections.map((section) => (
+          <a
+            href={section.href}
+            class="group relative bg-white dark-surface rounded-2xl border border-slate-200/80 p-8 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class={`w-14 h-14 ${section.iconBg} dark-icon-card rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <i class={`fas ${section.icon} ${section.iconColor} dark-card-icon text-2xl`}></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-800 dark-text-primary mb-2 group-hover:text-indigo-600 transition-colors">{section.title}</h2>
+            <p class="text-slate-500 dark-text-muted text-sm leading-relaxed">{section.description}</p>
+            <div class="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-400 dark-text-dim group-hover:text-indigo-600 transition-colors">
+              <span>Abrir</span>
+              <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>

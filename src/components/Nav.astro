@@ -1,0 +1,46 @@
+---
+interface Props {
+  activePage: 'menu' | 'grades' | 'buses' | 'schedule';
+}
+
+const { activePage } = Astro.props;
+
+const navItems = [
+  { id: 'menu' as const, label: 'Inicio', icon: 'fa-house', href: '/' },
+  { id: 'schedule' as const, label: 'Horario', icon: 'fa-calendar-alt', href: '/schedule' },
+  { id: 'grades' as const, label: 'Notas', icon: 'fa-chart-pie', href: '/grades' },
+  { id: 'buses' as const, label: 'Buses', icon: 'fa-bus', href: '/buses' },
+];
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark-nav backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200 group-hover:shadow-indigo-300 transition-shadow">
+          <i class="fas fa-graduation-cap text-sm"></i>
+        </div>
+        <span class="text-lg font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark-logo-text bg-clip-text text-transparent">Campus App</span>
+      </a>
+      
+      <div class="flex items-center gap-1 bg-slate-100/80 dark-nav-pill p-1 rounded-xl">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              activePage === item.id
+                ? 'bg-white dark-nav-active text-indigo-600 shadow-sm'
+                : 'text-slate-500 dark-nav-inactive hover:text-slate-700 hover:bg-white/50'
+            }`}
+          >
+            <i class={`fas ${item.icon} text-xs`}></i>
+            <span class="hidden sm:inline">{item.label}</span>
+          </a>
+        ))}
+        <button id="themeToggle" onclick="window.toggleTheme()" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 dark-theme-btn hover:bg-slate-200 transition-all ml-1" aria-label="Cambiar tema">
+          <i id="themeIcon" class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

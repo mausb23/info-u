@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import ScheduleBuilder from '../components/schedule/ScheduleBuilder';
+---
+
+<BaseLayout title="Creador de Horarios" activePage="schedule" transition>
+  <Nav activePage="schedule" />
+  
+  <main class="pt-16" transition:name="schedule-content">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900 dark-text-primary">Creador de Horarios</h1>
+        <p class="text-slate-500 dark-text-muted mt-1">Crea tu horario semanal, detecta conflictos y compártelo con amigos</p>
+      </div>
+
+      <ScheduleBuilder client:load />
+    </div>
+  </main>
+</BaseLayout>

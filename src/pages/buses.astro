@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+
+interface Direction {
+  label: string;
+  desc: string;
+  icon: string;
+  times: string[];
+}
+
+interface Route {
+  name: string;
+  description: string;
+  directions: Direction[];
+  icon: string;
+  color: string;
+  badge: string;
+}
+
+const routes: Route[] = [
+  {
+    name: 'Educación ↔ Fac. Odontología',
+    description: 'Conexión entre la Facultad de Educación y la Facultad de Odontología',
+    icon: 'fa-road',
+    color: 'indigo',
+    badge: 'Cada 20-30 min',
+    directions: [
+      {
+        label: 'Hacia Odontología',
+        desc: 'Salidas desde Educación',
+        icon: 'fa-arrow-right',
+        times: ['6:20', '6:40', '7:10', '7:30', '8:00', '8:20', '8:50', '9:10', '9:40', '10:05', '10:30', '10:55', '11:20', '11:55', '12:15', '12:35', '12:55', '13:15', '13:35', '13:55', '14:20', '14:50', '15:10', '15:40', '16:00', '16:40', '17:05', '17:30', '18:00', '18:25', '18:55', '19:10', '19:20', '19:30', '19:55', '20:05', '20:30', '21:05', '21:20', '21:35'],
+      },
+      {
+        label: 'Hacia Educación',
+        desc: 'Salidas desde Odontología',
+        icon: 'fa-arrow-left',
+        times: ['6:20', '6:50', '7:10', '7:40', '8:00', '8:45', '9:05', '9:40', '10:05', '10:35', '11:00', '11:25', '11:55', '12:15', '12:35', '12:55', '13:35', '14:00', '14:20', '14:50', '15:20', '15:40', '16:05', '16:45', '17:10', '17:40', '18:05', '18:35', '18:50', '19:00', '19:10', '19:35', '19:45', '20:10', '20:45', '21:00', '21:10'],
+      },
+    ],
+  },
+  {
+    name: 'Artes Plásticas ↔ Fac. Odontología',
+    description: 'Conexión entre la Escuela de Artes Plásticas y la Facultad de Odontología',
+    icon: 'fa-palette',
+    color: 'emerald',
+    badge: 'Cada 20-30 min',
+    directions: [
+      {
+        label: 'Hacia Odontología',
+        desc: 'Salidas desde Artes Plásticas',
+        icon: 'fa-arrow-right',
+        times: ['6:30', '6:55', '7:20', '7:45', '8:25', '8:50', '9:20', '9:45', '10:20', '10:40', '11:10', '11:30', '12:00', '12:25', '12:45', '13:05', '13:45', '14:10', '14:35', '15:00', '15:25', '15:50', '16:15', '16:55', '17:20', '17:45', '18:15', '18:40'],
+      },
+      {
+        label: 'Hacia Artes Plásticas',
+        desc: 'Salidas desde Odontología',
+        icon: 'fa-arrow-left',
+        times: ['6:35', '7:00', '7:25', '7:50', '8:15', '8:55', '9:20', '9:55', '10:15', '10:50', '11:10', '11:40', '12:05', '12:25', '12:45', '13:25', '13:50', '14:15', '14:40', '15:05', '15:30', '15:55', '16:20', '17:00', '17:25', '17:55', '18:20'],
+      },
+    ],
+  },
+];
+
+const colorMap: Record<string, { bg: string; border: string; text: string; iconBg: string; badge: string; badgeText: string }> = {
+  indigo: { bg: 'bg-indigo-50/50', border: 'border-indigo-100', text: 'text-indigo-600', iconBg: 'bg-indigo-100', badge: 'bg-indigo-100', badgeText: 'text-indigo-700' },
+  emerald: { bg: 'bg-emerald-50/50', border: 'border-emerald-100', text: 'text-emerald-600', iconBg: 'bg-emerald-100', badge: 'bg-emerald-100', badgeText: 'text-emerald-700' },
+};
+
+const darkBgMap: Record<string, string> = {
+  indigo: 'dark-route-indigo-bg',
+  emerald: 'dark-route-emerald-bg',
+};
+
+const darkBadgeMap: Record<string, string> = {
+  indigo: 'dark-badge-indigo',
+  emerald: 'dark-badge-emerald',
+};
+---
+
+<BaseLayout title="Horarios de Bus - UCR" activePage="buses">
+  <Nav activePage="buses" />
+  
+  <main class="pt-16" transition:name="buses-content">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-bold text-slate-900 dark-text-primary">Horarios de Bus Interno</h1>
+          <p class="text-slate-500 dark-text-muted mt-1">UCR — I Ciclo 2026 · Vigencia a partir del 9 de marzo, 2026</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="bg-white dark-surface px-4 py-2 rounded-xl border border-slate-200 dark-border shadow-sm">
+            <p class="text-xs text-slate-400 dark-text-dim font-medium uppercase">Rutas</p>
+            <p class="text-2xl font-bold text-slate-800 dark-text-primary">{routes.length}</p>
+          </div>
+          <div class="bg-white dark-surface px-4 py-2 rounded-xl border border-slate-200 dark-border shadow-sm">
+            <p class="text-xs text-slate-400 dark-text-dim font-medium uppercase">Horario</p>
+            <p class="text-lg font-bold text-slate-800 dark-text-primary">6:20 - 21:35</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 dark-amber-banner border border-amber-200 rounded-xl p-4 mb-8 flex items-start gap-3">
+        <i class="fas fa-info-circle text-amber-500 dark-amber-banner-icon mt-0.5"></i>
+        <div>
+          <p class="text-amber-800 dark-amber-banner-title font-semibold text-sm">Importante</p>
+          <p class="text-amber-700 dark-amber-banner-text text-xs mt-0.5">
+            Los horarios pueden variar en días festivos o durante recesos académicos. Consulte avisos actualizados.
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        {routes.map((route, ri) => {
+          const c = colorMap[route.color];
+          const darkBg = darkBgMap[route.color];
+          const darkBadge = darkBadgeMap[route.color];
+          return (
+            <div class="bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+              {/* Header */}
+              <div class="p-6 border-b border-slate-100 dark-border">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex items-start gap-4">
+                    <div class={`w-12 h-12 ${c.iconBg} dark-icon-bg rounded-xl flex items-center justify-center flex-shrink-0`}>
+                      <i class={`fas ${route.icon} ${c.text} dark-card-icon text-xl`}></i>
+                    </div>
+                    <div>
+                      <h2 class="text-lg font-bold text-slate-800 dark-text-primary">{route.name}</h2>
+                      <p class="text-sm text-slate-500 dark-text-muted mt-0.5">{route.description}</p>
+                    </div>
+                  </div>
+                  <span class={`px-3 py-1.5 text-xs font-bold ${c.badge} ${c.badgeText} ${darkBadge} rounded-full whitespace-nowrap flex-shrink-0`}>
+                    <i class="fas fa-clock mr-1"></i>{route.badge}
+                  </span>
+                </div>
+              </div>
+
+              {/* Both Directions Side by Side */}
+              <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark-border">
+                {route.directions.map((dir, di) => (
+                  <div
+                    class={`direction-block p-5 ${c.bg} ${c.border} ${darkBg}`}
+                    data-times={JSON.stringify(dir.times)}
+                  >
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class={`w-8 h-8 ${c.iconBg} dark-icon-bg rounded-lg flex items-center justify-center flex-shrink-0`}>
+                        <i class={`fas ${dir.icon} ${c.text} dark-card-icon text-sm`}></i>
+                      </div>
+                      <div>
+                        <h3 class="text-sm font-bold text-slate-800 dark-text-primary">{dir.label}</h3>
+                        <p class="text-[11px] text-slate-500 dark-text-muted">{dir.desc} ({dir.times.length} salidas)</p>
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5 mb-3">
+                      {dir.times.map((t) => (
+                        <span class={`px-2.5 py-1 text-xs font-mono font-medium ${c.badge} ${c.badgeText} ${darkBadge} rounded-md`}>
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div class="pt-3 border-t border-slate-200 dark-border flex items-center gap-2">
+                      <i class="fas fa-clock text-indigo-400 dark:text-indigo-400 text-xs"></i>
+                      <span class="next-bus text-xs font-semibold text-slate-600 dark-text-secondary">Calculando...</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Notas Aclaratorias */}
+      <div class="mt-10 bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-slate-100 dark-border">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-amber-100 dark-icon-bg rounded-xl flex items-center justify-center">
+              <i class="fas fa-clipboard-list text-amber-600 dark-card-icon"></i>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-slate-800 dark-text-primary">Notas Aclaratorias</h2>
+              <p class="text-sm text-slate-500 dark-text-muted">Información importante sobre el servicio</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <!-- Day Schedule -->
+          <div class={`p-4 rounded-xl bg-indigo-50/50 dark-route-indigo-bg border border-indigo-100`}>
+            <h3 class="text-sm font-bold text-indigo-700 dark-text-primary flex items-center gap-2 mb-2">
+              <i class="fas fa-sun text-indigo-500"></i>
+              Horario Diurno (6:20 a.m. - 6:40 p.m.)
+            </h3>
+            <ul class="space-y-1.5 text-xs text-slate-600 dark-text-secondary">
+              <li class="flex items-start gap-2">
+                <i class="fas fa-bus text-indigo-400 mt-0.5"></i>
+                <span>El bus sale de la terminal en <strong>Finca 1</strong> (Rodrigo Facio).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-road text-indigo-400 mt-0.5"></i>
+                <span>Pasa por la rotonda de la <strong>Facultad de Ciencias Económicas</strong>.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-sign text-indigo-400 mt-0.5"></i>
+                <span>Sale por el acceso frente a la <strong>Escuela de Estudios Generales</strong> directo hacia Finca 2 y Finca 3.</span>
+              </li>
+              <li class="flex items-start gap-2 mt-2 p-2 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800">
+                <i class="fas fa-exclamation-triangle text-red-500 mt-0.5"></i>
+                <span class="text-red-700 dark:text-red-300"><strong>Importante:</strong> NO incluye paradas en la Antigua Facultad de Odontología ni en la Facultad de Microbiología en este lapso.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Night Schedule -->
+          <div class={`p-4 rounded-xl bg-emerald-50/50 dark-route-emerald-bg border border-emerald-100`}>
+            <h3 class="text-sm font-bold text-emerald-700 dark-text-primary flex items-center gap-2 mb-2">
+              <i class="fas fa-moon text-emerald-500"></i>
+              Horario Nocturno (a partir de 7:00 p.m.)
+            </h3>
+            <ul class="space-y-1.5 text-xs text-slate-600 dark-text-secondary">
+              <li class="flex items-start gap-2">
+                <i class="fas fa-route text-emerald-400 mt-0.5"></i>
+                <span>Realiza la <strong>vuelta completa a la Milla Universitaria</strong> en Finca 1.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-university text-emerald-400 mt-0.5"></i>
+                <span>Sale de la <strong>Facultad de Educación</strong> con paradas en:</span>
+              </li>
+              <li class="ml-6 flex items-start gap-2">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-[10px]"></i>
+                <span>Escuela de <strong>Artes Plásticas</strong></span>
+              </li>
+              <li class="ml-6 flex items-start gap-2">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-[10px]"></i>
+                <span><strong>Antigua Facultad de Odontología</strong></span>
+              </li>
+              <li class="ml-6 flex items-start gap-2">
+                <i class="fas fa-check-circle text-emerald-400 mt-0.5 text-[10px]"></i>
+                <span><strong>Facultad de Microbiología</strong></span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i class="fas fa-arrow-right text-emerald-400 mt-0.5"></i>
+                <span>Luego se enrumba hacia <strong>Finca 2</strong> y <strong>Finca 3</strong>.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Glossary -->
+          <div class={`p-4 rounded-xl bg-slate-50 dark-muted-bg border border-slate-200 dark-border`}>
+            <h3 class="text-sm font-bold text-slate-700 dark-text-primary flex items-center gap-2 mb-2">
+              <i class="fas fa-book text-slate-500"></i>
+              Glosario de Ubicaciones
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class={`p-3 rounded-lg bg-white dark-surface border border-slate-200 dark-border shadow-sm`}>
+                <span class="font-bold text-indigo-600 dark:text-indigo-400">Finca 1</span>
+                <p class="text-slate-500 dark-text-muted mt-0.5">Rodrigo Facio</p>
+              </div>
+              <div class={`p-3 rounded-lg bg-white dark-surface border border-slate-200 dark-border shadow-sm`}>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">Finca 2</span>
+                <p class="text-slate-500 dark-text-muted mt-0.5">Ciudad de la Investigación</p>
+              </div>
+              <div class={`p-3 rounded-lg bg-white dark-surface border border-slate-200 dark-border shadow-sm`}>
+                <span class="font-bold text-amber-600 dark:text-amber-400">Finca 3</span>
+                <p class="text-slate-500 dark-text-muted mt-0.5">Instalaciones Deportivas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+    (function() {
+      function parseTime(t) {
+        var parts = t.split(':');
+        return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+      }
+
+      function formatTime(t) {
+        var parts = t.split(':');
+        var h = parseInt(parts[0], 10);
+        var m = parseInt(parts[1], 10);
+        var ampm = h >= 12 ? 'p.m.' : 'a.m.';
+        var dh = h > 12 ? h - 12 : h;
+        return dh + ':' + (m < 10 ? '0' : '') + m + ' ' + ampm;
+      }
+
+      function formatDiff(minutes) {
+        if (minutes <= 0) return 'Ahora';
+        if (minutes < 60) return minutes + ' min';
+        var h = Math.floor(minutes / 60);
+        var m = minutes % 60;
+        return h + 'h' + (m > 0 ? ' ' + m + 'min' : '');
+      }
+
+      function updateNextBuses() {
+        var now = new Date();
+        var day = now.getDay();
+        var current = now.getHours() * 60 + now.getMinutes();
+
+        if (day === 0 || day === 6) {
+          document.querySelectorAll('.next-bus').forEach(function(el) {
+            el.innerHTML = '<i class="fas fa-calendar-times mr-1"></i>Sin servicio los fines de semana';
+          });
+          return;
+        }
+
+        document.querySelectorAll('.direction-block').forEach(function(el) {
+          var timesStr = el.dataset.times;
+          if (!timesStr) return;
+          var times;
+          try { times = JSON.parse(timesStr); } catch(e) { return; }
+
+          var nextMinutes = null;
+          var nextTimeStr = null;
+
+          for (var i = 0; i < times.length; i++) {
+            var m = parseTime(times[i]);
+            if (m >= current && (nextMinutes === null || m < nextMinutes)) {
+              nextMinutes = m;
+              nextTimeStr = times[i];
+            }
+          }
+
+          var indicator = el.querySelector('.next-bus');
+          if (!indicator) return;
+
+          if (nextMinutes === null) {
+            indicator.innerHTML = '<i class="fas fa-ban mr-1"></i>No hay m&aacute;s salidas hoy';
+            return;
+          }
+
+          var diff = nextMinutes - current;
+          indicator.innerHTML = '<i class="fas fa-bus mr-1"></i>Pr&oacute;ximo: <strong>' + formatTime(nextTimeStr) + '</strong> <span class="text-indigo-600 dark:text-indigo-400 font-bold">(' + formatDiff(diff) + ')</span>';
+        });
+      }
+
+      function init() {
+        updateNextBuses();
+        setInterval(updateNextBuses, 30000);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</BaseLayout>

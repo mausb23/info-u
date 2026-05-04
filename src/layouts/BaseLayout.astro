@@ -1,0 +1,92 @@
+---
+interface Props {
+  title: string;
+  activePage?: 'menu' | 'grades' | 'buses' | 'schedule';
+  transition?: boolean;
+}
+
+const { title, activePage = 'menu', transition = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  {transition && <meta name="astro-view-transitions-enabled" content="true" />}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/theme.css" />
+  <script is:inline>
+    (function() {
+      var stored = localStorage.getItem('campus_theme');
+      var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      function applyClass(dark) {
+        var html = document.documentElement;
+        if (dark) {
+          html.classList.add('dark');
+        } else {
+          html.classList.remove('dark');
+        }
+      }
+
+      applyClass(isDark);
+
+      function syncIcon() {
+        var icon = document.getElementById('themeIcon');
+        if (icon) {
+          var dark = document.documentElement.classList.contains('dark');
+          icon.className = 'fas ' + (dark ? 'fa-sun' : 'fa-moon');
+        }
+      }
+
+      window.setTheme = function(t) {
+        applyClass(t === 'dark');
+        localStorage.setItem('campus_theme', t);
+        syncIcon();
+      };
+
+      window.toggleTheme = function() {
+        var isCurrentlyDark = document.documentElement.classList.contains('dark');
+        window.setTheme(isCurrentlyDark ? 'light' : 'dark');
+      };
+
+      document.addEventListener('DOMContentLoaded', syncIcon);
+    })();
+  </script>
+  <style is:global>
+    html { font-family: 'Inter', sans-serif; }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+
+    ::view-transition-old(root) { animation: none; opacity: 0; }
+    ::view-transition-new(root) { animation: none; opacity: 1; }
+
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    html.dark .scrollbar-thin::-webkit-scrollbar-thumb { background: #475569; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 min-h-screen antialiased">
+  <slot />
+
+  <footer class="border-t border-slate-200/60 dark-border bg-white/50 dark-nav">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+      <p class="text-[11px] text-slate-400 dark-text-dim text-center leading-relaxed">
+        <i class="fas fa-info-circle mr-1"></i>
+        Esta aplicaci&oacute;n no est&aacute; afiliada, respaldada ni asociada con la Universidad de Costa Rica (UCR) ni con ninguna de sus entidades. 
+        Es un sitio independiente creado por un estudiante.
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

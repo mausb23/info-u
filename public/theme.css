@@ -1,0 +1,242 @@
+html.dark body {
+  background-image: linear-gradient(to bottom right, #0f172a, #1e293b, rgb(30 27 75 / .3)) !important;
+}
+
+html.dark .dark-nav {
+  background-color: #0f172acc !important;
+  border-color: #33415599 !important;
+  box-shadow: 0 1px 2px 0 rgb(15 23 42 / .2) !important;
+}
+
+html.dark .dark-nav-pill {
+  background-color: #1e293bcc !important;
+}
+
+html.dark .dark-logo-text {
+  background-image: linear-gradient(to right, #f1f5f9, #cbd5e1) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+html.dark .dark-nav-active {
+  background-color: #334155 !important;
+  color: #818cf8 !important;
+}
+
+html.dark .dark-nav-inactive {
+  color: #94a3b8 !important;
+}
+
+html.dark .dark-nav-inactive:hover {
+  color: #e2e8f0 !important;
+  background-color: #33415580 !important;
+}
+
+html.dark .dark-theme-btn {
+  color: #64748b !important;
+}
+
+html.dark .dark-theme-btn:hover {
+  background-color: #334155 !important;
+}
+
+html.dark .dark-surface {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-text-primary {
+  color: #f1f5f9 !important;
+}
+
+html.dark .dark-text-secondary {
+  color: #cbd5e1 !important;
+}
+
+html.dark .dark-text-muted {
+  color: #94a3b8 !important;
+}
+
+html.dark .dark-text-dim {
+  color: #64748b !important;
+}
+
+html.dark .dark-border {
+  border-color: #334155 !important;
+}
+
+html.dark .dark-muted-bg {
+  background-color: #334155 !important;
+}
+
+html.dark .dark-muted-bg-alpha {
+  background-color: #33415580 !important;
+}
+
+html.dark .dark-input {
+  background-color: #334155 !important;
+  border-color: #475569 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark .dark-hover-surface:hover {
+  background-color: #33415580 !important;
+  border-color: #475569 !important;
+}
+
+html.dark .dark-progress-bg {
+  background-color: #334155 !important;
+}
+
+html.dark .dark-badge-slate {
+  background-color: #33415580 !important;
+}
+
+html.dark .dark-icon-bg {
+  background-color: #334155 !important;
+}
+
+html.dark .dark-icon-accent {
+  color: #818cf8 !important;
+}
+
+html.dark .dark-icon-emerald {
+  color: #34d399 !important;
+}
+
+html.dark .dark-badge-indigo {
+  background-color: #312e8180 !important;
+  color: #a5b4fc !important;
+}
+
+html.dark .dark-badge-emerald {
+  background-color: #064e3b80 !important;
+  color: #6ee7b7 !important;
+}
+
+html.dark .dark-badge-amber {
+  background-color: #78350f80 !important;
+  color: #fbbf24 !important;
+}
+
+html.dark .dark-badge-purple {
+  background-color: #581c8780 !important;
+  color: #d8b4fe !important;
+}
+
+html.dark .dark-badge-rose {
+  background-color: #88133780 !important;
+  color: #fda4af !important;
+}
+
+html.dark .dark-route-indigo-bg {
+  background-color: #1e1b4b4d !important;
+  border-color: #312e81 !important;
+}
+
+html.dark .dark-route-emerald-bg {
+  background-color: #022c224d !important;
+  border-color: #064e3b !important;
+}
+
+html.dark .dark-route-amber-bg {
+  background-color: #451a034d !important;
+  border-color: #78350f !important;
+}
+
+html.dark .dark-route-purple-bg {
+  background-color: #3b07644d !important;
+  border-color: #581c87 !important;
+}
+
+html.dark .dark-route-rose-bg {
+  background-color: #4c05194d !important;
+  border-color: #881337 !important;
+}
+
+html.dark .dark-shadow {
+  box-shadow: 0 4px 6px -1px rgb(15 23 42 / .2), 0 2px 4px -2px rgb(15 23 42 / .1) !important;
+}
+
+html.dark .dark-icon-card {
+  background-color: #334155 !important;
+}
+
+html.dark .dark-card-icon {
+  color: #818cf8 !important;
+}
+
+html.dark .dark-empty-icon {
+  color: #64748b !important;
+}
+
+html.dark .dark-amber-banner {
+  background-color: #78350f4d !important;
+  border-color: #78350f !important;
+}
+
+html.dark .dark-amber-banner-title {
+  color: #fde68a !important;
+}
+
+html.dark .dark-amber-banner-text {
+  color: #fcd34d !important;
+}
+
+html.dark .dark-amber-banner-icon {
+  color: #fbbf24 !important;
+}
+
+/* Schedule Builder */
+html.dark .dark-schedule-sidebar {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-schedule-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-schedule-block {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+html.dark .dark-schedule-time {
+  color: #64748b !important;
+}
+
+html.dark .dark-schedule-header {
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark .dark-schedule-grid-line {
+  border-color: #1e293b !important;
+}
+
+html.dark .dark-schedule-conflict {
+  background-color: rgba(127, 29, 29, 0.4) !important;
+  border-color: #ef4444 !important;
+}
+
+html.dark .dark-schedule-share {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-schedule-toolbar {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-schedule-stats {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark .dark-schedule-mobile-stats {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
