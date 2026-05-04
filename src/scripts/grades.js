@@ -28,6 +28,7 @@ function setScale(base) {
       if (a.grade !== null && a.grade !== undefined) {
         a.grade = Math.round(a.grade * factor * 100) / 100;
       }
+      a.weight = Math.round(a.weight * factor * 100) / 100;
     }
   }
   updateScaleUI();
@@ -76,15 +77,15 @@ function addAssignment(courseId) {
   const gradeValue = gradeInput.value.trim();
   const weight = parseFloat(weightInput.value);
 
-  if (isNaN(weight) || weight <= 0) return alert('Ingrese un porcentaje de peso válido');
-  if (weight > 100) return alert('El peso no puede exceder 100%');
+  if (isNaN(weight) || weight <= 0) return alert('Ingrese un peso válido');
+  if (weight > state.scale) return alert(`El peso no puede exceder ${state.scale}`);
 
   const course = state.courses.find((c) => c.id === courseId);
   if (!course) return;
   const currentWeight = course.assignments.reduce((sum, a) => sum + a.weight, 0);
 
-  if (currentWeight + weight > 100) {
-    return alert(`El peso total no puede exceder 100%. Capacidad restante: ${100 - currentWeight}%`);
+  if (currentWeight + weight > state.scale) {
+    return alert(`El peso total no puede exceder ${state.scale}. Capacidad restante: ${(state.scale - currentWeight).toFixed(1)}`);
   }
 
   let grade = null;
@@ -148,7 +149,7 @@ function calculateCourse(course) {
   course.assignments.forEach((a) => {
     totalWeight += a.weight;
     if (a.grade !== null && a.grade !== undefined) {
-      weightedSum += a.grade * (a.weight / 100);
+      weightedSum += a.grade * (a.weight / state.scale);
       gradedWeight += a.weight;
     }
   });
@@ -157,7 +158,7 @@ function calculateCourse(course) {
     average: weightedSum,
     completedWeight: totalWeight,
     gradedWeight,
-    remainingWeight: 100 - totalWeight,
+    remainingWeight: state.scale - totalWeight,
   };
 }
 
@@ -205,7 +206,7 @@ function render() {
           : course.assignments
               .map((a) => {
                 const hasGrade = a.grade !== null && a.grade !== undefined;
-                const points = hasGrade ? (a.grade * (a.weight / 100)).toFixed(2) : '-';
+                const points = hasGrade ? (a.grade * (a.weight / state.scale)).toFixed(2) : '-';
                 return `<div class="flex items-center justify-between p-3 ${hasGrade ? 'bg-slate-50 dark-muted-bg-alpha' : 'bg-amber-50'} hover:bg-slate-100 dark-hover-surface rounded-xl border ${hasGrade ? 'border-slate-200 dark-border' : 'border-amber-200'} transition-all group">
                   <div class="flex-1 min-w-0">
                     <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
@@ -237,7 +238,7 @@ function render() {
               </div>
               <div class="flex items-center gap-1.5">
                 <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">Peso:</span>
-                <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight}% / 100%</span>
+                <span class="text-sm font-bold text-slate-600 dark-text-secondary">${stats.completedWeight} / ${state.scale}</span>
               </div>
             </div>
           </div>
@@ -246,9 +247,9 @@ function render() {
           </button>
         </div>
 
-        <div class="w-full h-1.5 bg-slate-100 dark-progress-bg overflow-hidden">
-          <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style="width: ${stats.completedWeight}%"></div>
-        </div>
+          <div class="w-full h-1.5 bg-slate-100 dark-progress-bg overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500" style="width: ${(stats.completedWeight / state.scale) * 100}%"></div>
+          </div>
 
         <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-2">
@@ -262,7 +263,7 @@ function render() {
             <div class="${statusBg} border p-4 rounded-2xl">
               <h4 class="text-xs font-bold text-slate-500 dark-text-muted uppercase mb-2">Peso restante</h4>
               <div class="flex justify-between items-end">
-                <span class="text-2xl font-black text-slate-700 dark-text-primary">${stats.remainingWeight}%</span>
+                <span class="text-2xl font-black text-slate-700 dark-text-primary">${stats.remainingWeight}</span>
                 <span class="text-[10px] font-bold uppercase ${stats.remainingWeight === 0 ? 'text-slate-400 dark-text-dim' : `${statusText} animate-pulse`}">
                   ${stats.remainingWeight === 0 ? 'Completo' : 'Pendiente'}
                 </span>
@@ -279,8 +280,8 @@ function render() {
                     <input type="number" id="asn-grade-${course.id}" placeholder="--" step="0.01" max="${state.scale}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                   <div>
-                    <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Peso (%) *</label>
-                    <input type="number" id="asn-weight-${course.id}" placeholder="%" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <label class="text-[9px] font-black text-slate-400 dark-text-dim uppercase ml-1">Peso *</label>
+                    <input type="number" id="asn-weight-${course.id}" placeholder="0-${state.scale}" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                 </div>
                 <button onclick="window.addAssignment('${course.id}')" class="w-full py-2.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-black transition-all">
@@ -309,7 +310,7 @@ function updateDashboard(avg, count, weight) {
   const gw = document.getElementById('globalWeight');
   if (ga) ga.textContent = avg > 0 ? avg.toFixed(2) : 'N/A';
   if (ac) ac.textContent = count.toString();
-  if (gw) gw.textContent = `${Math.round(weight)}%`;
+  if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
 }
 
 window.setScale = setScale;
