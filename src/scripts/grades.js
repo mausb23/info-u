@@ -580,7 +580,7 @@ function render() {
                     <input type="number" id="asn-weight-${course.id}" placeholder="0-${getScale()}" max="${stats.remainingWeight}" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark-input outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                   </div>
                 </div>
-                <button onclick="window.addAssignment('${course.id}')" class="w-full py-2.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-black transition-all">
+                <button onclick="window.addAssignment('${course.id}')" class="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg hover:from-indigo-600 hover:to-purple-700 shadow-lg transition-all">
                   AGREGAR ASIGNACIÓN
                 </button>
               </div>
