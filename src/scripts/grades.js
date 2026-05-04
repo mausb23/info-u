@@ -4,6 +4,8 @@ let state = {
   scale: 100,
   courses: [],
   selectedCourseId: null,
+  activeTab: 'courses',
+  semesterCourses: [],
 };
 
 function init() {
@@ -31,6 +33,9 @@ function setScale(base) {
       }
       a.weight = Math.round(a.weight * factor * 100) / 100;
     }
+  }
+  for (const c of state.semesterCourses) {
+    c.grade = Math.round(c.grade * factor * 100) / 100;
   }
   updateScaleUI();
   save();
@@ -142,6 +147,58 @@ function removeAssignment(courseId, assignmentId) {
   render();
 }
 
+function setTab(tab) {
+  state.activeTab = tab;
+  updateTabUI();
+  save();
+  render();
+}
+
+function updateTabUI() {
+  const tabCourses = document.getElementById('tabCourses');
+  const tabSemester = document.getElementById('tabSemester');
+  if (!tabCourses || !tabSemester) return;
+
+  const active = 'px-5 py-2 rounded-lg text-sm font-bold bg-white dark-surface text-indigo-600 shadow-sm';
+  const inactive = 'px-5 py-2 rounded-lg text-sm font-bold text-slate-500 dark-text-muted hover:text-slate-700';
+  tabCourses.className = state.activeTab === 'courses' ? active : inactive;
+  tabSemester.className = state.activeTab === 'semester' ? active : inactive;
+}
+
+function addSemesterCourse(name, grade, credits) {
+  state.semesterCourses.push({
+    id: crypto.randomUUID(),
+    name,
+    grade,
+    credits,
+  });
+  save();
+  render();
+}
+
+function removeSemesterCourse(id) {
+  if (confirm('¿Eliminar este curso del promedio semestral?')) {
+    state.semesterCourses = state.semesterCourses.filter((c) => c.id !== id);
+    save();
+    render();
+  }
+}
+
+function calculateSemesterAverage(courses) {
+  if (courses.length === 0) return { average: 0, totalCredits: 0, courseCount: 0 };
+  let weightedSum = 0;
+  let totalCredits = 0;
+  courses.forEach((c) => {
+    weightedSum += c.grade * c.credits;
+    totalCredits += c.credits;
+  });
+  return {
+    average: totalCredits > 0 ? weightedSum / totalCredits : 0,
+    totalCredits,
+    courseCount: courses.length,
+  };
+}
+
 function calculateCourse(course) {
   let weightedSum = 0;
   let gradedWeight = 0;
@@ -193,7 +250,87 @@ function updateCourseSelector() {
   }
 }
 
+function renderSemester() {
+  const container = document.getElementById('semesterList');
+  const empty = document.getElementById('semesterEmpty');
+  if (!container || !empty) return;
+
+  if (state.semesterCourses.length === 0) {
+    container.innerHTML = '';
+    empty.classList.remove('hidden');
+    updateDashboard(0, 0, 0);
+    return;
+  }
+
+  empty.classList.add('hidden');
+  const stats = calculateSemesterAverage(state.semesterCourses);
+
+  const items = state.semesterCourses.map((c) => `
+    <div class="bg-white dark-surface rounded-xl border border-slate-200/80 dark-border p-4 flex items-center justify-between hover:shadow-sm transition-shadow">
+      <div class="min-w-0 flex-1">
+        <p class="font-bold text-slate-800 dark-text-primary">${escapeHtml(c.name)}</p>
+        <p class="text-xs text-slate-400 dark-text-dim mt-0.5">${c.credits} crédito${c.credits !== 1 ? 's' : ''}</p>
+      </div>
+      <div class="flex items-center gap-4 flex-shrink-0 ml-4">
+        <div class="text-right">
+          <p class="text-lg font-black text-slate-800 dark-text-primary">${c.grade}</p>
+          <p class="text-[10px] text-slate-400 dark-text-dim uppercase">/${state.scale}</p>
+        </div>
+        <button onclick="window.removeSemesterCourse('${c.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="bg-white dark-surface rounded-2xl border border-slate-200/80 dark-border shadow-sm p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold text-slate-800 dark-text-primary">Resumen del Semestre</h2>
+        <span class="text-xs font-bold text-slate-400 dark-text-dim uppercase">${stats.courseCount} curso${stats.courseCount !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="bg-slate-50 dark-muted-bg-alpha rounded-xl p-4 text-center">
+          <p class="text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1">Promedio</p>
+          <p class="text-3xl font-black text-slate-800 dark-text-primary">${stats.average.toFixed(2)}</p>
+        </div>
+        <div class="bg-slate-50 dark-muted-bg-alpha rounded-xl p-4 text-center">
+          <p class="text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1">Créditos</p>
+          <p class="text-3xl font-black text-slate-800 dark-text-primary">${stats.totalCredits}</p>
+        </div>
+        <div class="bg-slate-50 dark-muted-bg-alpha rounded-xl p-4 text-center">
+          <p class="text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1">Escala</p>
+          <p class="text-3xl font-black text-slate-800 dark-text-primary">${state.scale}</p>
+        </div>
+      </div>
+    </div>
+    <div class="space-y-3">${items}</div>
+  `;
+
+  updateDashboard(stats.average, stats.courseCount, stats.totalCredits);
+}
+
 function render() {
+  const coursesSection = document.getElementById('coursesSection');
+  const semesterSection = document.getElementById('semesterSection');
+  if (!coursesSection || !semesterSection) return;
+
+  updateTabUI();
+
+  if (state.activeTab === 'semester') {
+    coursesSection.classList.add('hidden');
+    semesterSection.classList.remove('hidden');
+
+    const gradeInput = document.getElementById('semCourseGrade');
+    if (gradeInput) gradeInput.max = state.scale;
+
+    renderSemester();
+    return;
+  }
+
+  coursesSection.classList.remove('hidden');
+  semesterSection.classList.add('hidden');
+
   const container = document.getElementById('coursesList');
   const emptyState = document.getElementById('emptyState');
   if (!container || !emptyState) return;
@@ -340,9 +477,22 @@ function updateDashboard(avg, count, weight) {
   const ga = document.getElementById('globalAverage');
   const ac = document.getElementById('activeCourses');
   const gw = document.getElementById('globalWeight');
+  const l1 = document.getElementById('dashboardLabel1');
+  const l2 = document.getElementById('dashboardLabel2');
+  const l3 = document.getElementById('dashboardLabel3');
   if (ga) ga.textContent = avg > 0 ? avg.toFixed(2) : 'N/A';
   if (ac) ac.textContent = count.toString();
   if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
+
+  if (state.activeTab === 'semester') {
+    if (l1) l1.textContent = 'Promedio Semestral';
+    if (l2) l2.textContent = 'Cursos';
+    if (l3) l3.textContent = 'Créditos';
+  } else {
+    if (l1) l1.textContent = 'Promedio Global';
+    if (l2) l2.textContent = 'Cursos Activos';
+    if (l3) l3.textContent = 'Peso Promedio';
+  }
 }
 
 window.setScale = setScale;
@@ -350,6 +500,8 @@ window.addAssignment = addAssignment;
 window.updateGrade = updateGrade;
 window.removeAssignment = removeAssignment;
 window.removeCourse = removeCourse;
+window.addSemesterCourse = addSemesterCourse;
+window.removeSemesterCourse = removeSemesterCourse;
 
 document.getElementById('courseForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -368,6 +520,26 @@ document.getElementById('courseSelect')?.addEventListener('change', (e) => {
   state.selectedCourseId = e.target.value;
   save();
   render();
+});
+
+document.getElementById('tabCourses')?.addEventListener('click', () => setTab('courses'));
+document.getElementById('tabSemester')?.addEventListener('click', () => setTab('semester'));
+
+document.getElementById('semesterForm')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nameInput = document.getElementById('semCourseName');
+  const gradeInput = document.getElementById('semCourseGrade');
+  const creditsInput = document.getElementById('semCourseCredits');
+  const name = nameInput.value.trim();
+  const grade = parseFloat(gradeInput.value);
+  const credits = parseFloat(creditsInput.value);
+  if (!name) return alert('Ingrese el nombre del curso');
+  if (isNaN(grade) || grade < 0 || grade > state.scale) return alert(`La nota debe estar entre 0 y ${state.scale}`);
+  if (isNaN(credits) || credits <= 0) return alert('Ingrese los créditos del curso');
+  addSemesterCourse(name, grade, credits);
+  nameInput.value = '';
+  gradeInput.value = '';
+  creditsInput.value = '';
 });
 
 init();

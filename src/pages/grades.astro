@@ -8,62 +8,96 @@ import Nav from '../components/Nav.astro';
   
   <main class="pt-16">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <h1 class="text-3xl font-bold text-slate-900 dark-text-primary">Control de Notas</h1>
-          <p class="text-slate-500 dark-text-muted mt-1">Administra cursos, tareas y notas ponderadas</p>
-        </div>
-        <div class="flex items-center bg-white dark-surface p-1 rounded-xl border border-slate-200 dark-border shadow-sm">
-          <span class="text-xs font-bold text-slate-400 dark-text-dim px-3 uppercase tracking-wider">Escala:</span>
-          <button id="base10Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 10</button>
-          <button id="base100Btn" class="px-4 py-1.5 rounded-lg text-sm font-semibold transition-all">Base 100</button>
-        </div>
+      <!-- Tabs -->
+      <div class="flex gap-1 mb-8 bg-slate-100 dark-muted-bg p-1 rounded-xl border border-slate-200 dark-border w-fit">
+        <button id="tabCourses" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Control de Notas</button>
+        <button id="tabSemester" class="px-5 py-2 rounded-lg text-sm font-bold transition-all">Promedio Semestral</button>
       </div>
 
+      <!-- Dashboard cards -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p class="text-slate-400 dark-text-dim text-sm font-medium">Promedio Global</p>
+          <p id="dashboardLabel1" class="text-slate-400 dark-text-dim text-sm font-medium">Promedio Global</p>
           <h3 id="globalAverage" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0.00</h3>
         </div>
         <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p class="text-slate-400 dark-text-dim text-sm font-medium">Cursos Activos</p>
+          <p id="dashboardLabel2" class="text-slate-400 dark-text-dim text-sm font-medium">Cursos Activos</p>
           <h3 id="activeCourses" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0</h3>
         </div>
         <div class="bg-white dark-surface p-5 rounded-2xl border border-slate-200/80 dark-border shadow-sm">
-          <p class="text-slate-400 dark-text-dim text-sm font-medium">Peso Promedio</p>
+          <p id="dashboardLabel3" class="text-slate-400 dark-text-dim text-sm font-medium">Peso Promedio</p>
           <h3 id="globalWeight" class="text-3xl font-bold text-slate-800 dark-text-primary mt-1">0%</h3>
         </div>
       </div>
 
-      <div class="bg-white dark-surface p-6 rounded-2xl border border-slate-200/80 dark-border shadow-sm mb-8">
-        <form id="courseForm" class="flex flex-col sm:flex-row gap-4">
-          <div class="flex-1">
-            <label class="block text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1 ml-1">Nombre del Curso</label>
-            <input type="text" id="newCourseName" placeholder="Ej. Física Avanzada" required
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+      <!-- Courses (per-course) section -->
+      <div id="coursesSection">
+        <div class="bg-white dark-surface p-6 rounded-2xl border border-slate-200/80 dark-border shadow-sm mb-8">
+          <form id="courseForm" class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1">
+              <label class="block text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1 ml-1">Nombre del Curso</label>
+              <input type="text" id="newCourseName" placeholder="Ej. Física Avanzada" required
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+            </div>
+            <button type="submit" class="sm:self-end px-8 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-200 transition-all">
+              <i class="fas fa-plus mr-2"></i>Crear Curso
+            </button>
+          </form>
+        </div>
+
+        <div id="courseSelector" class="hidden mb-6">
+          <div class="bg-white dark-surface p-4 rounded-2xl border border-slate-200/80 dark-border shadow-sm flex items-center gap-4">
+            <i class="fas fa-book text-slate-400 dark-text-dim"></i>
+            <select id="courseSelect" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-sm font-semibold bg-white dark-surface appearance-none cursor-pointer">
+            </select>
           </div>
-          <button type="submit" class="sm:self-end px-8 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-200 transition-all">
-            <i class="fas fa-plus mr-2"></i>Crear Curso
-          </button>
-        </form>
-      </div>
+        </div>
 
-      <div id="courseSelector" class="hidden mb-6">
-        <div class="bg-white dark-surface p-4 rounded-2xl border border-slate-200/80 dark-border shadow-sm flex items-center gap-4">
-          <i class="fas fa-book text-slate-400 dark-text-dim"></i>
-          <select id="courseSelect" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-sm font-semibold bg-white dark-surface appearance-none cursor-pointer">
-          </select>
+        <div id="coursesList" class="space-y-6"></div>
+        
+        <div id="emptyState" class="hidden text-center py-20">
+          <div class="w-20 h-20 bg-slate-100 dark-muted-bg rounded-3xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-folder-open text-slate-300 dark-empty-icon text-3xl"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-slate-400 dark-text-dim">Sin cursos aún</h2>
+          <p class="text-slate-400 dark-text-dim text-sm mt-1">Agrega tu primer curso para empezar</p>
         </div>
       </div>
 
-      <div id="coursesList" class="space-y-6"></div>
-      
-      <div id="emptyState" class="hidden text-center py-20">
-        <div class="w-20 h-20 bg-slate-100 dark-muted-bg rounded-3xl flex items-center justify-center mx-auto mb-5">
-          <i class="fas fa-folder-open text-slate-300 dark-empty-icon text-3xl"></i>
+      <!-- Semester average section -->
+      <div id="semesterSection" class="hidden">
+        <div class="bg-white dark-surface p-6 rounded-2xl border border-slate-200/80 dark-border shadow-sm mb-8">
+          <form id="semesterForm" class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1 ml-1">Curso</label>
+              <input type="text" id="semCourseName" placeholder="Ej. Cálculo I" required
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1 ml-1">Nota Final</label>
+              <input type="number" id="semCourseGrade" placeholder="0-100" step="0.01" min="0" max="100" required
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 dark-text-dim uppercase mb-1 ml-1">Créditos</label>
+              <input type="number" id="semCourseCredits" placeholder="Ej. 4" step="0.5" min="0.5" required
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+            </div>
+            <button type="submit" class="sm:col-span-4 px-8 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-200 transition-all">
+              <i class="fas fa-plus mr-2"></i>Agregar Curso
+            </button>
+          </form>
         </div>
-        <h2 class="text-xl font-semibold text-slate-400 dark-text-dim">Sin cursos aún</h2>
-        <p class="text-slate-400 dark-text-dim text-sm mt-1">Agrega tu primer curso para empezar</p>
+
+        <div id="semesterList" class="space-y-3"></div>
+
+        <div id="semesterEmpty" class="text-center py-16">
+          <div class="w-20 h-20 bg-slate-100 dark-muted-bg rounded-3xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-calculator text-slate-300 dark-empty-icon text-3xl"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-slate-400 dark-text-dim">Sin cursos aún</h2>
+          <p class="text-slate-400 dark-text-dim text-sm mt-1">Agrega los cursos del semestre para calcular tu promedio</p>
+        </div>
       </div>
     </div>
   </main>
