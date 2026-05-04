@@ -318,4 +318,7 @@ document.getElementById('courseForm')?.addEventListener('submit', (e) => {
   }
 });
 
+document.getElementById('base10Btn')?.addEventListener('click', () => setScale(10));
+document.getElementById('base100Btn')?.addEventListener('click', () => setScale(100));
+
 init();
