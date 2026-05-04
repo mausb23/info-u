@@ -489,13 +489,14 @@ function updateDashboard(avg, count, weight) {
   const l3 = document.getElementById('dashboardLabel3');
   if (ga) ga.textContent = avg > 0 ? avg.toFixed(2) : 'N/A';
   if (ac) ac.textContent = count.toString();
-  if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
 
   if (state.activeTab === 'semester') {
+    if (gw) gw.textContent = `${Math.round(weight)}`;
     if (l1) l1.textContent = 'Promedio de Cursos';
     if (l2) l2.textContent = 'Cursos';
     if (l3) l3.textContent = 'Créditos';
   } else {
+    if (gw) gw.textContent = `${Math.round(weight)} / ${state.scale}`;
     if (l1) l1.textContent = 'Promedio Global';
     if (l2) l2.textContent = 'Cursos Activos';
     if (l3) l3.textContent = 'Peso Promedio';
