@@ -1,5 +1,5 @@
 html.dark body {
-  background-image: linear-gradient(to bottom right, #0f172a, #1e293b, rgb(30 27 75 / .3)) !important;
+  background-color: #0b1120 !important;
 }
 
 html.dark .dark-nav {
