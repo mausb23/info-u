@@ -3,6 +3,7 @@ const STORAGE_KEY = 'weighted_grade_tracker_v1';
 let state = {
   scale: 100,
   courses: [],
+  selectedCourseId: null,
 };
 
 function init() {
@@ -168,6 +169,30 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+function updateCourseSelector() {
+  const selector = document.getElementById('courseSelector');
+  const select = document.getElementById('courseSelect');
+  if (!selector || !select) return;
+
+  const show = state.courses.length >= 2;
+  selector.classList.toggle('hidden', !show);
+
+  if (!show) {
+    state.selectedCourseId = null;
+    return;
+  }
+
+  const prev = select.value;
+  select.innerHTML = state.courses.map((c) =>
+    `<option value="${c.id}" ${c.id === state.selectedCourseId ? 'selected' : ''}>${escapeHtml(c.name)}</option>`
+  ).join('');
+
+  if (!state.selectedCourseId || !state.courses.some((c) => c.id === state.selectedCourseId)) {
+    state.selectedCourseId = state.courses[0].id;
+    select.value = state.selectedCourseId;
+  }
+}
+
 function render() {
   const container = document.getElementById('coursesList');
   const emptyState = document.getElementById('emptyState');
@@ -177,15 +202,22 @@ function render() {
     container.innerHTML = '';
     emptyState.classList.remove('hidden');
     updateDashboard(0, 0, 0);
+    updateCourseSelector();
     return;
   }
 
   emptyState.classList.add('hidden');
+  updateCourseSelector();
+
+  const displayed = state.selectedCourseId
+    ? state.courses.filter((c) => c.id === state.selectedCourseId)
+    : state.courses;
+
   let globalWeightedSum = 0;
   let globalCourseCount = 0;
   let globalWeightSum = 0;
 
-  container.innerHTML = state.courses
+  container.innerHTML = displayed
     .map((course) => {
       const stats = calculateCourse(course);
       globalWeightedSum += stats.average;
@@ -331,5 +363,11 @@ document.getElementById('courseForm')?.addEventListener('submit', (e) => {
 
 document.getElementById('base10Btn')?.addEventListener('click', () => setScale(10));
 document.getElementById('base100Btn')?.addEventListener('click', () => setScale(100));
+
+document.getElementById('courseSelect')?.addEventListener('change', (e) => {
+  state.selectedCourseId = e.target.value;
+  save();
+  render();
+});
 
 init();

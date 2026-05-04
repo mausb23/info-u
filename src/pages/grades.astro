@@ -48,6 +48,14 @@ import Nav from '../components/Nav.astro';
         </form>
       </div>
 
+      <div id="courseSelector" class="hidden mb-6">
+        <div class="bg-white dark-surface p-4 rounded-2xl border border-slate-200/80 dark-border shadow-sm flex items-center gap-4">
+          <i class="fas fa-book text-slate-400 dark-text-dim"></i>
+          <select id="courseSelect" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-sm font-semibold bg-white dark-surface appearance-none cursor-pointer">
+          </select>
+        </div>
+      </div>
+
       <div id="coursesList" class="space-y-6"></div>
       
       <div id="emptyState" class="hidden text-center py-20">
