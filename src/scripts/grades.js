@@ -304,7 +304,7 @@ function getStatusInfo(avg, scale, gradedWeight) {
     return { label: 'Aprobado', colorClass: 'text-emerald-600 dark-text-primary', bgClass: 'bg-emerald-50 border-emerald-100 dark-muted-bg dark-border', textClass: 'text-emerald-700 dark-text-secondary' };
   }
   if (rounded >= 6.0) {
-    return { label: 'Ampliación', colorClass: 'text-amber-600 dark-amber-banner-title', bgClass: 'bg-amber-50 border-amber-200 dark-route-amber-bg', textClass: 'text-amber-700 dark-amber-banner-text' };
+    return { label: 'Ampliación', colorClass: 'text-amber-600 dark-amber-banner-title', bgClass: 'bg-amber-50 border-amber-200 dark-muted-bg dark-border', textClass: 'text-amber-700 dark-amber-banner-text' };
   }
   return { label: 'Reprobado', colorClass: 'text-rose-600 dark-text-primary', bgClass: 'bg-rose-50 border-rose-100 dark-muted-bg dark-border', textClass: 'text-rose-700 dark-text-secondary' };
 }
