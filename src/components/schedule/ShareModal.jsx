@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { exportScheduleImage } from '../../utils/exportCanvas';
 
 export default function ShareModal({ courses, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -37,19 +38,7 @@ export default function ShareModal({ courses, onClose }) {
   const handleDownloadImage = async () => {
     setExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const el = document.getElementById('scheduleCalendar');
-      if (!el) return;
-      const canvas = await html2canvas(el, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-      const link = document.createElement('a');
-      link.download = `schedule-${new Date().toISOString().slice(0, 10)}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+      await exportScheduleImage(courses);
     } catch (err) {
       console.error('Export failed:', err);
     }
