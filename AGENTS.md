@@ -23,8 +23,8 @@ npm run preview  # Preview production build
 - **Google Fonts** (Inter) via `@import`
 - **localStorage** for persistence, keys:
   - `weighted_grade_tracker_v1` (grades)
-  - `campus_theme` (dark/light)
-  - `campus_schedule_v2` (schedule builder courses)
+  - `infoU_theme` (dark/light)
+  - `infoU_schedule_v2` (schedule builder courses)
 
 ## Structure
 

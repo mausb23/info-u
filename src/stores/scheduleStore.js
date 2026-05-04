@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const STORAGE_KEY = 'campus_schedule_v2';
+const STORAGE_KEY = 'infoU_schedule_v2';
 
 function load() {
   try {
