@@ -237,6 +237,10 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+function formatGrade(g) {
+  return Number(g).toFixed(2);
+}
+
 function updateCourseSelector() {
   const selector = document.getElementById('courseSelector');
   const select = document.getElementById('courseSelect');
@@ -284,7 +288,7 @@ function renderSemester() {
       </div>
       <div class="flex items-center gap-4 flex-shrink-0 ml-4">
         <div class="text-right">
-          <p class="text-lg font-black text-slate-800 dark-text-primary">${c.grade}</p>
+          <p class="text-lg font-black text-slate-800 dark-text-primary">${formatGrade(c.grade)}</p>
           <p class="text-[10px] text-slate-400 dark-text-dim uppercase">/${getScale()}</p>
         </div>
         <button onclick="window.removeSemesterCourse('${c.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
@@ -391,7 +395,7 @@ function render() {
                 return `<div class="flex items-center justify-between p-3 ${hasGrade ? 'bg-slate-50 dark-muted-bg-alpha' : 'bg-amber-50'} hover:bg-slate-100 dark-hover-surface rounded-xl border ${hasGrade ? 'border-slate-200 dark-border' : 'border-amber-200'} transition-all group">
                   <div class="flex-1 min-w-0">
                     <p class="font-semibold text-slate-700 dark-text-secondary truncate">${escapeHtml(a.name)}</p>
-                    <p class="text-[10px] font-bold ${hasGrade ? 'text-slate-400 dark-text-dim' : 'text-amber-500'} uppercase">${hasGrade ? `Nota: ${a.grade} • ` : 'Nota pendiente • '}Peso: ${a.weight}%</p>
+                    <p class="text-[10px] font-bold ${hasGrade ? 'text-slate-400 dark-text-dim' : 'text-amber-500'} uppercase">${hasGrade ? `Nota: ${formatGrade(a.grade)} • ` : 'Nota pendiente • '}Peso: ${a.weight}%</p>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 ml-3">
                     ${!hasGrade
