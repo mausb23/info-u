@@ -185,6 +185,29 @@ function gradePreview(courseId, assignmentId, value) {
   span.className = `text-[10px] font-bold ${info.colorClass}`;
 }
 
+function gradeBlur(courseId, assignmentId, value) {
+  const course = state.courses.find((c) => c.id === courseId);
+  if (!course) return;
+
+  const assignment = course.assignments.find((a) => a.id === assignmentId);
+  if (!assignment) return;
+
+  const span = document.getElementById(`gp-${courseId}-${assignmentId}`);
+  if (!span) return;
+
+  const saved = assignment.grade !== null && assignment.grade !== undefined ? String(assignment.grade) : '';
+  if (saved === (value || '').trim()) {
+    if (assignment.grade !== null && assignment.grade !== undefined) {
+      const pts = (assignment.grade * (assignment.weight / getScale())).toFixed(2);
+      span.textContent = `+${pts}`;
+      span.className = 'text-[10px] font-bold text-slate-800 dark-text-secondary';
+    } else {
+      span.textContent = '—';
+      span.className = 'text-[10px] font-bold text-slate-400 dark-text-dim';
+    }
+  }
+}
+
 function setTab(tab) {
   state.activeTab = tab;
   updateTabUI();
@@ -477,8 +500,8 @@ function render() {
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0 ml-3">
                     <div class="flex flex-col items-end gap-0.5">
-                      <input type="number" value="${hasGrade ? a.grade : ''}" placeholder="Nota" min="0" max="${getScale()}" step="0.01" oninput="window.gradePreview('${course.id}', '${a.id}', this.value)" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-slate-300 dark-input outline-none focus:ring-1 focus:ring-indigo-400">
-                      <span id="gp-${course.id}-${a.id}" class="text-[10px] font-bold text-slate-400 dark-text-dim">${hasGrade ? `+${points}` : '—'}</span>
+                      <input type="number" value="${hasGrade ? a.grade : ''}" placeholder="Nota" min="0" max="${getScale()}" step="0.01" oninput="window.gradePreview('${course.id}', '${a.id}', this.value)" onchange="window.updateGrade('${course.id}', '${a.id}', this.value)" onblur="window.gradeBlur('${course.id}', '${a.id}', this.value)" class="w-16 px-2 py-1 text-sm rounded-lg border border-slate-300 dark-input outline-none focus:ring-1 focus:ring-indigo-400">
+                      <span id="gp-${course.id}-${a.id}" class="text-[10px] font-bold ${hasGrade ? 'text-slate-800 dark-text-secondary' : 'text-slate-400 dark-text-dim'}">${hasGrade ? `+${points}` : '—'}</span>
                     </div>
                     <button onclick="window.removeAssignment('${course.id}', '${a.id}')" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:bg-rose-100 hover:text-rose-600 transition-all">
                       <i class="fas fa-times"></i>
@@ -595,6 +618,7 @@ window.addAssignment = addAssignment;
 window.updateGrade = updateGrade;
 window.removeAssignment = removeAssignment;
 window.gradePreview = gradePreview;
+window.gradeBlur = gradeBlur;
 window.removeCourse = removeCourse;
 window.addSemesterCourse = addSemesterCourse;
 window.removeSemesterCourse = removeSemesterCourse;
