@@ -247,10 +247,14 @@ function removeSemesterCourse(id) {
 
 function calculateSemesterAverage(courses) {
   if (courses.length === 0) return { average: 0, totalCredits: 0, courseCount: 0 };
+  const scale = getScale();
   let weightedSum = 0;
   let totalCredits = 0;
   courses.forEach((c) => {
-    weightedSum += c.grade * c.credits;
+    const base10 = scale === 100 ? c.grade / 10 : c.grade;
+    const effective = base10 < 5.0 ? 5.0 : base10;
+    const gradeForCalc = scale === 100 ? effective * 10 : effective;
+    weightedSum += gradeForCalc * c.credits;
     totalCredits += c.credits;
   });
   return {
@@ -423,7 +427,7 @@ function renderSemester() {
     <div class="space-y-3">${items}</div>
     <p class="text-xs text-slate-400 dark-text-dim text-center mt-6 max-w-md mx-auto leading-relaxed">
       <i class="fas fa-info-circle mr-1"></i>
-      Este promedio puede variar del cálculo oficial de la universidad. Es solo una referencia.
+      Según el reglamento de la UCR, calificaciones inferiores a 5.0 se consideran como 5.0 para el cálculo del promedio ponderado.
     </p>
   `;
 
