@@ -425,10 +425,16 @@ function renderSemester() {
       </div>
     </div>
     <div class="space-y-3">${items}</div>
-    <p class="text-xs text-slate-400 dark-text-dim text-center mt-6 max-w-md mx-auto leading-relaxed">
-      <i class="fas fa-info-circle mr-1"></i>
-      Según el reglamento de la UCR, calificaciones inferiores a 5.0 se consideran como 5.0 para el cálculo del promedio ponderado.
-    </p>
+    <div class="text-center mt-6 max-w-md mx-auto space-y-2">
+      <p class="text-xs text-slate-400 dark-text-dim leading-relaxed">
+        <i class="fas fa-info-circle mr-1"></i>
+        Este promedio puede variar del cálculo oficial de la universidad. Es solo una referencia.
+      </p>
+      <p class="text-xs text-slate-400 dark-text-dim leading-relaxed">
+        <i class="fas fa-graduation-cap mr-1"></i>
+        Según el reglamento de la UCR, calificaciones inferiores a 5.0 se consideran como 5.0 para el cálculo del promedio ponderado.
+      </p>
+    </div>
   `;
 
   updateDashboard(stats.average, stats.courseCount, stats.totalCredits);
