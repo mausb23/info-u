@@ -102,7 +102,7 @@ export function exportScheduleImage(courses) {
       const x = LABEL_W + dayIdx * CELL_W + 2;
       const y = HEADER_H + (course.startHour - 7) * ROW_H + 2;
       const w = CELL_W - 4;
-      const h = (course.endHour - course.startHour) * ROW_H - 4;
+      const h = (course.endHour - course.startHour + 1) * ROW_H - 4;
 
       ctx.fillStyle = course.color + '20';
       roundRect(ctx, x, y, w, h, 6);

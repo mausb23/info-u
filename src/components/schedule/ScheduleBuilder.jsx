@@ -50,7 +50,7 @@ export default function ScheduleBuilder() {
           <div class="bg-white dark-surface px-4 py-2 rounded-xl border border-slate-200/80 dark-border shadow-sm text-sm">
             <span class="text-slate-400 dark-text-dim"><i class="fas fa-book mr-1.5" />Cursos: <strong class="text-slate-700 dark-text-primary">{courses.length}</strong></span>
             <span class="mx-2 text-slate-200 dark-border">|</span>
-            <span class="text-slate-400 dark-text-dim"><i class="fas fa-clock mr-1.5" />Horas: <strong class="text-slate-700 dark-text-primary">{courses.reduce((s, c) => s + (c.endHour - c.startHour), 0)}</strong></span>
+            <span class="text-slate-400 dark-text-dim"><i class="fas fa-clock mr-1.5" />Horas: <strong class="text-slate-700 dark-text-primary">{courses.reduce((s, c) => s + (c.endHour - c.startHour + 1), 0)}</strong></span>
           </div>
 
           <div class="flex items-center gap-2 ml-auto">
