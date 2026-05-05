@@ -6,7 +6,7 @@ import Nav from '../components/Nav.astro';
 <BaseLayout title="Control de Notas" activePage="grades">
   <Nav activePage="grades" />
   
-  <main class="pt-16">
+  <main class="pt-16" transition:name="grades-content">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <!-- Tabs -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -98,5 +98,5 @@ import Nav from '../components/Nav.astro';
     </div>
   </main>
 
-  <script is:inline src="/grades.js"></script>
+  <script is:inline data-astro-rerun src="/grades.js"></script>
 </BaseLayout>

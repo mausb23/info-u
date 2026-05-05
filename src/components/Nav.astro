@@ -82,26 +82,28 @@ const dropdownItems = [
 </nav>
 
 <script>
-  (function() {
-    var btn = document.getElementById('notasDropdownBtn');
+  document.addEventListener('astro:page-load', function() {
     var menu = document.getElementById('notasDropdownMenu');
     var chevron = document.getElementById('notasChevron');
-    if (!btn || !menu) return;
+    if (!menu) return;
 
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var open = !menu.classList.contains('hidden');
-      menu.classList.toggle('hidden', open);
-      if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
-    });
+    var handler = function(e) {
+      var btn = document.getElementById('notasDropdownBtn');
+      if (btn && btn.contains(e.target)) {
+        e.stopPropagation();
+        var open = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden', open);
+        if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
+      } else if (menu.contains(e.target)) {
+        e.stopPropagation();
+      } else if (!menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        if (chevron) chevron.style.transform = '';
+      }
+    };
 
-    document.addEventListener('click', function() {
-      menu.classList.add('hidden');
-      if (chevron) chevron.style.transform = '';
-    });
-
-    menu.addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-  })();
+    document.removeEventListener('click', window.__navHandler);
+    window.__navHandler = handler;
+    document.addEventListener('click', window.__navHandler);
+  });
 </script>

@@ -678,7 +678,7 @@ const darkBadgeMap: Record<string, string> = {
     </div>
   </main>
 
-  <script is:inline>
+  <script is:inline data-astro-rerun>
     (function() {
       function parseTime(t) {
         var parts = t.split(':');
@@ -833,10 +833,15 @@ const darkBadgeMap: Record<string, string> = {
       }
 
       function init() {
+        if (window.__busIntervals) {
+          window.__busIntervals.forEach(clearInterval);
+        }
         updateNextBuses();
         updateMainTimers();
-        setInterval(updateMainTimers, 1000);
-        setInterval(updateNextBuses, 30000);
+        window.__busIntervals = [
+          setInterval(updateMainTimers, 1000),
+          setInterval(updateNextBuses, 30000)
+        ];
 
         document.getElementById('tabInterno')?.addEventListener('click', function() { setBusTab('interno'); });
         document.getElementById('tabExterno')?.addEventListener('click', function() { setBusTab('externo'); });

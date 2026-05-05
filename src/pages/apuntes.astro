@@ -6,7 +6,7 @@ import Nav from '../components/Nav.astro';
 <BaseLayout title="Apuntes" activePage="apuntes">
   <Nav activePage="apuntes" />
   
-  <main class="pt-16">
+  <main class="pt-16" transition:name="apuntes-content">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <!-- Dashboard -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
@@ -109,5 +109,5 @@ import Nav from '../components/Nav.astro';
     </div>
   </main>
 
-  <script is:inline src="/apuntes.js"></script>
+  <script is:inline data-astro-rerun src="/apuntes.js"></script>
 </BaseLayout>

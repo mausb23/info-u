@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -19,7 +20,7 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="generator" content={Astro.generator} />
-  {transition && <meta name="astro-view-transitions-enabled" content="true" />}
+  <ClientRouter />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -27,7 +28,7 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
   <link rel="stylesheet" href="/theme.css" />
   <Analytics />
   <SpeedInsights />
-  <script is:inline>
+  <script is:inline data-astro-rerun>
     (function() {
       var stored = localStorage.getItem('infoU_theme');
       var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -62,10 +63,15 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
         window.setTheme(isCurrentlyDark ? 'light' : 'dark');
       };
 
-      document.addEventListener('DOMContentLoaded', syncIcon);
+      if (document.readyState !== 'loading') {
+        syncIcon();
+      } else {
+        document.addEventListener('DOMContentLoaded', syncIcon);
+      }
+      document.addEventListener('astro:page-load', syncIcon);
     })();
   </script>
-  <script is:inline src="/ui.js"></script>
+  <script is:inline data-astro-rerun src="/ui.js"></script>
   <style is:global>
     html { font-family: 'Inter', sans-serif; }
     input[type="number"]::-webkit-outer-spin-button,
@@ -73,9 +79,6 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
-
-    ::view-transition-old(root) { animation: none; opacity: 0; }
-    ::view-transition-new(root) { animation: none; opacity: 1; }
 
     .scrollbar-thin::-webkit-scrollbar { width: 4px; }
     .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
