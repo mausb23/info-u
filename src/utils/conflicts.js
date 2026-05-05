@@ -18,7 +18,7 @@ export function getConflicts(courses) {
               a: a.id,
               b: b.id,
               day: dayA,
-              label: `${a.name} & ${b.name} overlap on ${dayA}`,
+              label: `${a.name} y ${b.name} se superponen el ${dayA}`,
             });
           }
         }
