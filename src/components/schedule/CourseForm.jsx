@@ -20,7 +20,7 @@ export default function CourseForm({ onAdd }) {
     );
   };
 
-  const validEndHours = HOURS.filter((h) => h > startHour);
+  const validEndHours = HOURS.filter((h) => h >= startHour);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -93,7 +93,7 @@ export default function CourseForm({ onAdd }) {
             onChange={(e) => {
               const val = Number(e.target.value);
               setStartHour(val);
-              if (endHour <= val) setEndHour(val + 1);
+              if (endHour < val) setEndHour(val);
             }}
             class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark-input focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
           >

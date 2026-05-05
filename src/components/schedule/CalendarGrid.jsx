@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { DAYS, HOURS, getConflicts } from '../../utils/conflicts';
+import { DAYS, HOURS, doSlotsOverlap, getConflicts } from '../../utils/conflicts';
 
 const ROW_HEIGHT = 52;
 
@@ -16,7 +16,7 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
         const b = courses[j];
         for (const dayA of a.days) {
           for (const dayB of b.days) {
-            if (dayA === dayB && a.startHour < b.endHour && b.startHour < a.endHour) {
+            if (dayA === dayB && doSlotsOverlap(a, b)) {
               set.add(`${a.id}-${dayA}`);
               set.add(`${b.id}-${dayB}`);
             }
