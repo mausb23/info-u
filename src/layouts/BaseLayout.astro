@@ -72,6 +72,15 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
     })();
   </script>
   <script is:inline data-astro-rerun src="/ui.js"></script>
+  <script>
+    document.addEventListener('astro:before-swap', function(event) {
+      var stored = localStorage.getItem('infoU_theme');
+      var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (isDark) {
+        event.newDocument.documentElement.classList.add('dark');
+      }
+    });
+  </script>
   <style is:global>
     html { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
     html.dark { background-color: #000000; }
