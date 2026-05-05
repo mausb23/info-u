@@ -109,7 +109,7 @@ export default function CalendarGrid({ courses, onRemoveCourse }) {
                 const dayIdx = DAYS.indexOf(day);
                 if (dayIdx === -1) return null;
                 const startRow = course.startHour - 7 + 2;
-                const endRow = course.endHour - 7 + 2;
+                const endRow = course.endHour - 7 + 3;
                 const isConflict = conflictSet.has(`${course.id}-${day}`);
 
                 return (
