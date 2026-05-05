@@ -75,8 +75,33 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
   <style is:global>
     html { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
     html.dark { background-color: #000000; }
+    html.dark body { background-image: none !important; background-color: #000000 !important; }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    html.dark .dark-surface { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .dark-border { border-color: #334155 !important; }
+    html.dark .dark-text-primary { color: #f1f5f9 !important; }
+    html.dark .dark-text-secondary { color: #cbd5e1 !important; }
+    html.dark .dark-text-muted { color: #94a3b8 !important; }
+    html.dark .dark-text-dim { color: #64748b !important; }
+    html.dark .dark-nav { background-color: #0f172acc !important; border-color: #33415599 !important; }
+    html.dark .dark-nav-active { background-color: #334155 !important; color: #818cf8 !important; }
+    html.dark .dark-nav-inactive { color: #94a3b8 !important; }
+    html.dark .dark-nav-pill { background-color: #1e293bcc !important; }
+    html.dark .dark-input { background-color: #334155 !important; border-color: #475569 !important; color: #f1f5f9 !important; }
+    html.dark .dark-muted-bg { background-color: #334155 !important; }
+    html.dark .dark-hover-surface:hover { background-color: #33415580 !important; }
+    html.dark .dark-icon-bg { background-color: #334155 !important; }
+    html.dark .dark-card-icon { color: #818cf8 !important; }
+    html.dark .dark-empty-icon { color: #64748b !important; }
+    html.dark .dark-logo-text { background-image: linear-gradient(to right, #f1f5f9, #cbd5e1) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+    html.dark .dark-theme-btn { color: #64748b !important; }
+    html.dark .dark-schedule-sidebar { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .dark-schedule-card { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .dark-schedule-block { background-color: #1e293b !important; border-color: #475569 !important; }
+    html.dark .dark-schedule-toolbar { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .dark-schedule-stats { background-color: #1e293b !important; border-color: #334155 !important; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
