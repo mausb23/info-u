@@ -18,7 +18,7 @@ export function getConflicts(courses) {
               a: a.id,
               b: b.id,
               day: dayA,
-              label: `${a.name} y ${b.name} se superponen el ${dayA}`,
+              label: `${a.name} y ${b.name} se superponen el ${DAY_NAMES[dayA] || dayA}`,
             });
           }
         }
@@ -27,6 +27,11 @@ export function getConflicts(courses) {
   }
   return conflicts;
 }
+
+const DAY_NAMES = {
+  Lun: 'lunes', Mar: 'martes', Mié: 'miércoles', Jue: 'jueves',
+  Vie: 'viernes', Sáb: 'sábado', Dom: 'domingo',
+};
 
 export function formatHour(h) {
   const ampm = h >= 12 ? 'PM' : 'AM';
