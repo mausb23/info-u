@@ -73,7 +73,8 @@ const { title, activePage = 'menu', transition = false } = Astro.props;
   </script>
   <script is:inline data-astro-rerun src="/ui.js"></script>
   <style is:global>
-    html { font-family: 'Inter', sans-serif; }
+    html { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
+    html.dark { background-color: #000000; }
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
